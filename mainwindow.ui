@@ -13,26 +13,19 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
+  <widget class="QWidget" name="centralwidget">
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>20</y>
+      <x>25</x>
+      <y>28</y>
       <width>430</width>
       <height>230</height>
      </rect>
     </property>
-    <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
    </widget>
   </widget>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>
