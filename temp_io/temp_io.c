@@ -70,11 +70,6 @@
  static int temp_io_release(struct inode *inode, struct file *filp);
  static int temp_io_read(struct file *filp, char *buf, size_t count, loff_t *f_pos);
  static int temp_io_write(struct file *filp, const char *buf, size_t count, loff_t *f_pos);
- static void timer_handler(struct timer_list *data);
- static void ledChange0(int stage);
- static void ledChange1(int stage);
- static void ledChange2(int stage);
- static void mode_change(void);
  static irq_handler_t  gpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs);
 
 
@@ -259,7 +254,7 @@
 
    numIn = simple_strtoul(temp_io_buffer, &temp_io_buffer_end, 10);
 
-   if (((numIn >= 1) && (numIn <= 9)) && count == 2){
+   if (((numIn >= 0) && (numIn <= 3)) && count == 2){
      direction = numIn;
    }
 
