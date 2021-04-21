@@ -18,5 +18,6 @@
         <file>pacman/cherry.png</file>
         <file>pacman/dot.png</file>
         <file>pacman/gate.png</file>
+        <file>pacman/move.txt</file>
     </qresource>
 </RCC>
