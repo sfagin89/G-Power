@@ -6,6 +6,7 @@ QGraphicsScene *scene;
 int gate_x, gate_y, total_corn, ate_corn, total_ate = 0; /* count dot and gates for ghosts */
 QLabel *score_title, *score, *status_win, *status_lose = 0; /* score counter and status on top of game */
 Character *gPac, *ghost[1]; /* initiate pacman and 4 ghosts */
+QVector<QGraphicsPixmapItem*> cherries; /* for score keeping later on */
 bool lost=false, won=false; /* turns true lost-->ghost & pac algorithm, won-->total_corn == ate_corn */
 char maze[22][37]; /* wall ratio based on maze.txt */
 QGraphicsPixmapItem *walls[22][37]; /* wall ratio based on maze.txt */
@@ -23,45 +24,65 @@ void MainWindow::build_maze() {
         return;
     }
     QTextStream stream(&Gmaze);
-    QString each_line = stream.readLine();
-    int i = 1;
-    while (!each_line.isNull()) {
+    //QString each_line = stream.readLine();
+    for(int i = 1; i < 21; i++) {
         QByteArray maze_line = Gmaze.readLine();
         for (int j = 1; j < 37; j++) {
             maze[i][j] = maze_line.at(j-1);
             switch(maze[i][j]) {
+            /*
+             * assigning maze[i][j] to either 'Y' or 'N'
+             * 'Y' for normal food, pacman, ghost, cherry
+             * 'N' for wall, gate, Gpower
+            */
             case 'f': /* normal food */
                 total_corn++;
                 walls[i][j] = new QGraphicsPixmapItem(dot);
                 scene->addItem(walls[i][j]);
                 walls[i][j]->setPos(xaxis+j*length, yaxis+i*length);
+                maze[i][j] = 'Y';
                 break;
             case 'w': /* wall */
                 walls[i][j] = new QGraphicsPixmapItem(wall);
                 scene->addItem(walls[i][j]);
                 walls[i][j]->setPos(xaxis+j*length, yaxis+i*length);
+                maze[i][j] = 'N';
                 break;
             case 'p': /* pacman */
+//                walls[i][j] = nullptr;
+//                gPac = new Pacman(j,i);
+//                gPac->setPos(xaxis+j*length, yaxis+i*length);
+//                scene->addItem(pac);
+                maze[i][j] = 'Y';
                 break;
             case 'g': /* ghost */
+
+                maze[i][j] = 'Y';
                 break;
             case 'b': /* cherry (power ball) */
                 total_corn++;
                 walls[i][j] = new QGraphicsPixmapItem(cherry);
                 scene->addItem(walls[i][j]);
                 walls[i][j]->setPos(xaxis+j*length, yaxis+i*length);
+                cherries.push_front(walls[i][j]);
+                maze[i][j] = 'Y';
                 break;
             case '0': /* gate for ghost */
+                walls[i][j] = new QGraphicsPixmapItem(QPixmap(":/pacman/gate.png"));
+                scene->addItem((walls[i][j]));
+                walls[i][j]->setPos(xaxis+j*length, yaxis+i*length);
+                maze[i][j] = 'N';
                 break;
             case '9': /* G power symbol */
                 walls[i][j] = new QGraphicsPixmapItem(Gpower);
                 scene->addItem(walls[i][j]);
                 walls[i][j]->setPos(xaxis+j*length, yaxis+i*length);
+                gate_x=j;
+                gate_y=i;
+                maze[i][j] = 'N';
                 break;
             }
         }
-
-        i++;
     }
 
 
