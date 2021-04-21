@@ -28,18 +28,60 @@ void MainWindow::pacman_movement() {
     char get = direction.at(0);
     switch(get) {
         case 'U': /* Up */
+            xpos = gpac->get_posx();
+            ypos = gpac->get_posy();
 
+            if(map[ypos-1][xpos] == '1' || ypos-1 < 0){
+                gpac->dir = 'S'; // direction of pacman is stoped
+            }
+            else{
+                gpac->dir = 'U';
+                gpac->posy = --ypos;
+            }
             break;
-        case 'R': /* Down */
+        case 'R': /* Right */
+            xpos = gpac->get_posx();
+            ypos = gpac->get_posy();
 
+            if(map[ypos][xpos+1] == '1' || xpos+1 >36)/* if we have reached
+                                                        a wall or the end of the map*/
+            {
+                gpac->dir = 'S'; // direction of pacman is stoped
+            }
+            else{
+                gpac->dir = 'R';
+                gpac->posx = ++xpos;
+            }
             break;
         case 'L': /* Left */
+            xpos = gpac->get_posx();
+            ypos = gpac->get_posy();
 
+            if(map[ypos][xpos-1] == '1' || xpos-1 <0)/* if we have reached
+                                                        a wall or the end of the map*/
+            {
+                gpac->dir = 'S'; // direction of pacman is stoped
+            }
+            else{
+                gpac->dir = 'L';
+                gpac->posx = --xpos;
+            }
             break;
         case 'D': /* Down */
+            xpos = gpac->get_posx();
+            ypos = gpac->get_posy();
 
+            if(map[ypos+1][xpos] == '1' || ypos+1 >36)/* if we have reached
+                                                        a wall or the end of the map*/
+            {
+                gpac->dir = 'S'; // direction of pacman is stoped
+            }
+            else{
+                gpac->dir = 'D';
+                gpac->posx = ++ypos;
+            }
             break;
-        default:
+        default: /* this is the case where we have direction stopped or an empty file (ex. when game starts)
             /* pacman does not move */
             break;
     }
