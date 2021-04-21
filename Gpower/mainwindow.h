@@ -47,11 +47,13 @@ public:
 
 
     void build_maze();
+    void pacman_movement();
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
+    QTimer *ptik;
 
 };
 
