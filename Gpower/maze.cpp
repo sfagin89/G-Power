@@ -4,8 +4,8 @@
 
 QGraphicsScene *scene;
 int gate_x, gate_y, total_corn, ate_corn, total_ate = 0; /* count dot and gates for ghosts */
-QLabel *score_title, *score, *status_win, *status_lose = 0; /* score counter and status on top of game */
-Character *gPac, *ghost[1]; /* initiate pacman and 4 ghosts */
+QLabel *scoreName, *count, *status_win, *status_lose = 0; /* score counter and status on top of game */
+//Character *gPac, *ghost[1]; /* initiate pacman and 4 ghosts */
 QVector<QGraphicsPixmapItem*> cherries; /* for score keeping later on */
 bool lost=false, won=false; /* turns true lost-->ghost & pac algorithm, won-->total_corn == ate_corn */
 char maze[22][37]; /* wall ratio based on maze.txt */
@@ -52,11 +52,10 @@ void MainWindow::build_maze() {
 //                walls[i][j] = nullptr;
 //                gPac = new Pacman(j,i);
 //                gPac->setPos(xaxis+j*length, yaxis+i*length);
-//                scene->addItem(pac);
-                maze[i][j] = 'Y';
+//                scene->addItem(gPac);
+//                maze[i][j] = 'Y';
                 break;
             case 'g': /* ghost */
-
                 maze[i][j] = 'Y';
                 break;
             case 'b': /* cherry (power ball) */
@@ -85,13 +84,36 @@ void MainWindow::build_maze() {
         }
     }
 
+    status_win = new QLabel(this);
+    status_win->hide();
+    status_win->setText("Won!");
+    status_win->setStyleSheet("color: yellow;"
+                              "font: bold;"
+                              "font-size: 15px;");
+    status_win->setGeometry(408,10,150,25);
+    status_lose = new QLabel(this);
+    status_lose->hide();
+    status_lose->setText("Lost!");
+    status_lose->setStyleSheet("color: yellow;"
+                               "font: bold;"
+                               "font-size: 15px;");
+    status_lose->setGeometry(408,10,150,25);
+
+    //gPac->setZvalue(2);
+    scoreName = new QLabel(this);
+    scoreName->setText("Score");
+    scoreName->setStyleSheet("color: yellow;"
+                             "font: bold;"
+                             "font-size: 15px;");
+    scoreName->setGeometry(33,10,60,25);
 
 
-
-
-
-
-
-
+    count = new QLabel(this);
+    count->setIndent(-80);
+    count->setText("0");
+    count->setStyleSheet("color: yellow;"
+                         "font: bold;"
+                         "font-size: 15px;");
+    count->setGeometry(83,10,60,25);
 
 }
