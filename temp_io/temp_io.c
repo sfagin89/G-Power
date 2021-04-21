@@ -21,6 +21,11 @@
  * The current direction can be read from the char device file as well
  * Ex: cat /dev/temp_io
  * Will display one of four directions (Up, Right, Down, Left)
+ *
+ * gpio_BTN0 = GPIO_68 = UP
+ * gpio_BTN1 = GPIO_44 = Right
+ * gpio_BTN2 = GPIO_26 = Down
+ * gpio_BTN3 = GPIO_46 = Left
  *************************************************************************/
 
  #include <linux/init.h>
