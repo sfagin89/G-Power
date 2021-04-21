@@ -11,7 +11,8 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    maze.cpp
+    maze.cpp \
+    pacman.cpp
 
 HEADERS += \
     mainwindow.h
