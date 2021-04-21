@@ -2,25 +2,32 @@
  * temp_io.c kernel module
  * Sara Fagin
  * EC535
- * Created: 4/20/2021
+ * Submitted: 4/5/2021
  *
  * Current Functionality:
- * On initialization starts in position Up (Direction=0)
- * On button_1 press, direction will change to Right
- * On button_2 press, direction will change to Down
- * On button_3 press, direction will change to Left
- * On button_0 press, direction will change to Up
+ * On initialization starts in Normal Mode and cycles correctly
+ * On first B0 click, enters Red Flash Mode and cycles correctly
+ * On next B0 click, enters Yellow Flash Mode and cycles correctly
+ * On third B0 click, enters Normal Mode and cycles correctly
+ * Write: Writes a number between 1-9 to the /dev/temp_io char dev for Hz
+ * * All other written data is gracefully ignored.
+ * Read: Using cat /dev/temp_io reads out the desired values
+ * Pedestrian Mode: On B1 Click enter Red/Yellow On for 5 cycles on next 'stop'
+ * * phase of normal mode (red) then start normal mode
  *
- * These can be pressed in any order to achieve the desired direction
+ * Functionality to Add:
+ * Light Check Mode
  *
- * Additionally: The write function allows for user to manually set the
- * direction to the char device file instead of using button input
- * Ex: echo # > /dev/temp_io
- * Where # is a number between 0-3
- *
- * The current direction can be read from the char device file as well
- * Ex: cat /dev/temp_io
- * Will display one of four directions (Up, Right, Down, Left)
+ * Desired Functionality:
+ * Normal Mode: GreenOn 3x -> YellowOn 1x -> RedOn 2x -> Start Over
+ * * If B0 -> Start RedFlash
+ * * If B1, From YellowOn -> Start Pedestrian
+ * * * If B0 -> Start RedFlash
+ * * Pedestrian Mode: RedOn/YellowOn 5x -> Start Normal
+ * Red Flash Mode: RedOn 1x -> RedOff 1x -> Start Over
+ * * If B0 -> Start YellowFlash
+ * Yellow Flash Mode: YellowOn 1x -> YellowOff 1x -> Start Over
+ * * If B0 -> Start Normal
  *************************************************************************/
 
  #include <linux/init.h>
