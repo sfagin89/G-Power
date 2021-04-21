@@ -24,17 +24,39 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+
 class Character: public QGraphicsPixmapItem {
 public:
-    virtual void go_up();
-    virtual void go_down()=0;
-    virtual void go_left()=0;
-    virtual void go_right()=0;
-
-    struct show {
-        QPixmap pic;
-        show *next;
+    virtual void up();
+    virtual void down()=0;
+    virtual void left()=0;
+    virtual void right()=0;
+    struct animation {
+        QPixmap img;
+        animation *next;
     };
+};
+
+class Pacman: public Character {
+public:
+    Pacman(int,int);
+    void up();
+    void down();
+    void left();
+    void right();
+private:
+    int x, y, navigate;
+};
+
+class ghost: public Character {
+public:
+    ghost(int,int);
+    void up();
+    void down();
+    void left();
+    void right();
+private:
+
 };
 
 class MainWindow : public QMainWindow
@@ -44,8 +66,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     Character *gPac, *ghost[1];
-
-
     void build_maze();
     void pacman_movement();
     ~MainWindow();
@@ -54,7 +74,6 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QTimer *ptik;
-
 };
 
 
