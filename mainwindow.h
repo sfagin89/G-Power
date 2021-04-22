@@ -14,7 +14,10 @@
 #include <QTimer>
 #include <QLabel>
 #include "QThread"
-
+#include <iostream>
+#include <QIODevice>
+#include <QFileSystemWatcher>
+#include <QMessageBox>
 #define xaxis 30
 #define yaxis 30
 #define length 12
@@ -31,6 +34,9 @@ public:
     virtual void down()=0;
     virtual void left()=0;
     virtual void right()=0;
+    char direction;
+    int positionX;
+    int positionY;
     struct animation {
         QPixmap img;
         animation *next;
@@ -59,21 +65,35 @@ private:
 
 };
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
     Character *gPac, *ghost[1];
     void build_maze();
-    void pacman_movement();
+   // void pacman_movement();
     ~MainWindow();
+private slots:
+    void pacman_movement();
+    void showModified(const QString& str) {
+        Q_UNUSED(str)
+        QFile movement("/Users/mandyyao/Desktop/read.txt");
+        movement.open(QIODevice::ReadWrite|QIODevice::Text);
+        QTextStream stream(&movement);
+        QByteArray direction = movement.readLine();
+        if (direction != "") {
 
+            char get = direction.at(0); // gets updated text
+            qInfo() << get; // prints updated text
+            // change global variable = huda
+        }
+    }
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QTimer *ptik;
+
 };
 
 
