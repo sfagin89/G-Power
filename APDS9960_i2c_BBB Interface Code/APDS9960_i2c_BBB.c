@@ -21,6 +21,9 @@
  * * Gesture Sensor Enabled, Appears to be working. Compiles.
  * * Delay function added
  * * Actual Gesture Sensing Functions added, compiles but not tested.
+ * * Added everything except interrupt handling.
+ * * Outputs to a text file
+ * * Havne't tried compiling or running yet.
  *
  * Desired Functionality:
  * * Initialize I2C communication
@@ -278,6 +281,7 @@ typedef struct gesture_data_type {
 
 int main(int argc, char *argv[]) {
   //Local Variables
+  FILE *fp;
   int file;
   int addr = APDS9960_I2C_ADDR;  // The I2C address of the APDS-9960: 0x39
   char *filename = "/dev/i2c-2"; // I2C bus
@@ -830,33 +834,41 @@ int main(int argc, char *argv[]) {
               /***** End of Gesture Parameters Reset *****/
             }
           }
+          fp = fopen("test.txt", "w+");
           switch(motion){
             case DIR_UP:
               printf("UP");
+              fprintf(fp, "U\n");
               break;
             case DIR_DOWN:
               printf("DOWN");
+              fprintf(fp, "D\n");
               break;
             case DIR_LEFT:
               printf("LEFT");
+              fprintf(fp, "L\n");
               break;
             case DIR_RIGHT:
               printf("RIGHT");
+              fprintf(fp, "R\n");
               break;
             case DIR_NEAR:
               printf("NEAR");
+              fprintf(fp, "N\n");
               break;
             case DIR_FAR:
               printf("FAR");
+              fprintf(fp, "F\n");
               break;
             default:
               printf("NONE");
+              fprintf(fp, "X\n");
           }
+          fclose(fp);
         }
         isr_flag = 0;
         //!!FILL THIS IN!!attachInterrupt(0, interruptRoutine, FALLING)
       }
     } while(1);
-
   return 0;
 }
