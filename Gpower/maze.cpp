@@ -49,11 +49,11 @@ void MainWindow::build_maze() {
                 maze[i][j] = 'N';
                 break;
             case 'p': /* pacman */
-//                walls[i][j] = nullptr;
-//                gPac = new Pacman(j,i);
-//                gPac->setPos(xaxis+j*length, yaxis+i*length);
-//                scene->addItem(gPac);
-//                maze[i][j] = 'Y';
+                walls[i][j] = nullptr;
+                gPac = new Pacman(j,i);
+                gPac->setPos(xaxis+j*length, yaxis+i*length);
+                scene->addItem(gPac);
+                maze[i][j] = 'Y';
                 break;
             case 'g': /* ghost */
                 maze[i][j] = 'Y';
