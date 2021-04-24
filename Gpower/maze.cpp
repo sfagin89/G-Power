@@ -23,6 +23,7 @@ void MainWindow::build_maze() {
         /* error checking, make sure maze.txt exist */
         return;
     }
+    int nextg = 0;
     QTextStream stream(&Gmaze);
     //QString each_line = stream.readLine();
     for(int i = 1; i < 21; i++) {
@@ -57,9 +58,10 @@ void MainWindow::build_maze() {
                 break;
             case 'g': /* ghost */
                 maze[i][j] = 'Y';
-                ghost[0] = new Ghost(j,i);
-                ghost[0]->setPos(xaxis+j*length, yaxis+i*length);
-                scene->addItem(ghost[0]);
+                ghost[nextg] = new Ghost(j,i, nextg);
+                ghost[nextg]->setPos(xaxis+j*length, yaxis+i*length);
+                scene->addItem(ghost[nextg]);
+                ++nextg;
                 break;
             case 'b': /* cherry (power ball) */
                 total_corn++;
