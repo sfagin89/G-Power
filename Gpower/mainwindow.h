@@ -41,6 +41,7 @@ public:
     virtual void set_nextdir(int)=0;
     virtual void set_changept(int)=0;
     int state, bluetik,begintik;
+    int count;
     bool throughgate;
     char dir;
 
@@ -74,17 +75,34 @@ public:
 private:
     int addscore();
     int px,py,posx,posy,dir, nextdir,changept;
-    bool inbox;
     animation *anim[4][10], *anindex[4];
 };
 
-class ghost: public Character {
+class Ghost: public Character {
 public:
-    ghost(int,int);
-    void up();
-    void down();
-    void left();
-    void right();
+    Ghost(int,int);
+    void moveup();
+    void movedown();
+    void moveleft();
+    void moveright();
+    int get_px(){return px;}
+    int get_py(){return py;}
+    int get_posx(){return posx;}
+    int get_posy(){return posy;}
+    int get_dir(){return dir;}
+    int get_nextdir(){return nextdir;}
+    int get_changept(){return changept;}
+    void set_px(int n){px=n;}
+    void set_py(int n){py=n;}
+    void set_posx(int n){posx=n;}
+    void set_posy(int n){posy=n;}
+    void set_dir(int d){dir = d;}
+    void set_nextdir(int nd){nextdir = nd;}
+    void set_changept(int npt){changept=npt;}
+private:
+    int px,py,posx,posy,dir, nextdir,changept, count;
+    bool inbox;
+    animation *anim[4][10], *anindex[4];
 private:
 
 };
@@ -98,17 +116,15 @@ public:
     Character *gPac, *ghost[1];
     void build_maze();
     void score();
-    //void pacman_movement();
-    //void ghost_movement();
     ~MainWindow();
 private slots:
     void pacman_movement();
-    //void ghost_movement();
+    void ghost_movement();
 
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
-    QTimer *ptik;
+    QTimer *ptik, *gtik;
 };
 
 
