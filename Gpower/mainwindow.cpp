@@ -29,10 +29,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setBackgroundBrush(Qt::black); /* set background to black color */
     build_maze();
     ghost[0]->dir = 'U';
+    ghost[1]->dir = 'L';
     ptik = new QTimer(this);
     ptik->start(1000);
     gtik = new QTimer(this);
-    gtik->start(500);
+    gtik->start(100);
     connect(ptik,SIGNAL(timeout()),this,SLOT(pacman_movement()));
     connect(ptik,SIGNAL(timeout()),this,SLOT(ghost_movement()));
     //connect(ptik,SIGNAL(timeout()),this,SLOT(gPac->pacman_movement())); // is is for when the function gets
@@ -114,7 +115,7 @@ void MainWindow::ghost_movement(){ /* ghost is expected to back and forth from i
 int i;
 int xpos, ypos;
 char dir;
-for(i=0 ; i<1 ; i++){
+for(i=0 ; i<2 ; i++){
    xpos = ghost[i]->get_px();
    ypos = ghost[i]->get_py();
    dir = ghost[i]->dir;
