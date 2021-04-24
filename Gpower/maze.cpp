@@ -57,6 +57,9 @@ void MainWindow::build_maze() {
                 break;
             case 'g': /* ghost */
                 maze[i][j] = 'Y';
+                ghost[0] = new Ghost(j,i);
+                ghost[0]->setPos(xaxis+j*length, yaxis+i*length);
+                scene->addItem(ghost[0]);
                 break;
             case 'b': /* cherry (power ball) */
                 total_corn++;
