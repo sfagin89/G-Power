@@ -22,25 +22,24 @@ MainWindow::MainWindow(QWidget *parent) :
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    scene = new QGraphicsScene(this);
+    scene = new QGraphicsScene(53, 52, ui->graphicsView->width(), ui->graphicsView->height());
     ui->graphicsView->setScene(scene);
     setWindowTitle("G-Pow"); /* Title of the pop up screen */
     ui->graphicsView->setStyleSheet("QGraphicsView {border: none;}"); /* screen with no border */
     ui->graphicsView->setBackgroundBrush(Qt::black); /* set background to black color */
     build_maze();
     ptik = new QTimer(this);
-    ptik->start(2000);
+    ptik->start(5000);
     connect(ptik,SIGNAL(timeout()),this,SLOT(pacman_movement()));
     //connect(ptik,SIGNAL(timeout()),this,SLOT(gPac->pacman_movement())); // is is for when the function gets
                                                                           // gets moved into the other file
 }
 
 
-
 void MainWindow::pacman_movement() { /* needs UI update to show
                                        appropriate pacman image*/
     int xpos, ypos;
-    QFile movement(":/pacman/move.txt");
+    QFile movement("/Users/mandyyao/Desktop/535Submit/Gpower/pacman/move.txt");
     movement.open(QIODevice::ReadOnly);
     QTextStream stream(&movement);
     QByteArray direction = movement.readLine();
@@ -50,8 +49,6 @@ void MainWindow::pacman_movement() { /* needs UI update to show
     /* the print statments below show that the algorithm can detect
      * the wall that the Pacman runs into in the up or down direction
      * and we can see that the px and py variables re updated each time*/
-    qInfo() << "y pos:";
-    qInfo() << ypos;
     switch(get) {
         case 'U': /* Up */
             if(maze[ypos-1][xpos] == 'N' || ypos-1 < 0){
@@ -71,6 +68,7 @@ void MainWindow::pacman_movement() { /* needs UI update to show
             else{
                 gPac->dir = 'R';
                 gPac->set_px(++xpos);
+                qInfo() << "here" << xpos;
             }
             break;
         case 'L': /* Left */
@@ -101,8 +99,8 @@ void MainWindow::pacman_movement() { /* needs UI update to show
 
     }
     int new_posx = gPac->get_px();
-    int new_posy = gPac->get_px();
-    gPac->setPos(xaxis+(new_posx*length), yaxis+(new_posy*length));
+    int new_posy = gPac->get_py();
+    gPac->setPos(xaxis+new_posx*length, yaxis+new_posy*length);
     QCoreApplication::processEvents();
     QThread::usleep(500);
 
