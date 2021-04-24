@@ -58,7 +58,7 @@ void MainWindow::show_hide_cherry() {
 void MainWindow::pacman_movement() { /* needs UI update to show
                                        appropriate pacman image*/
     int xpos, ypos;
-    QFile movement("/Users/mandyyao/Desktop/535Submit/Gpower/pacman/move.txt");
+    QFile movement(":/pacman/move.txt");
     movement.open(QIODevice::ReadOnly);
     QTextStream stream(&movement);
     QByteArray direction = movement.readLine();

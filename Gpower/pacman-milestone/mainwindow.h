@@ -82,28 +82,28 @@ private:
 class Ghost: public Character {
 public:
     Ghost(int, int, int);
-//    void north();
-//    void south();
-//    void west();
-//    void east();
-//    int get_px(){return px;}
-//    int get_py(){return py;}
-//    int get_posx(){return posx;}
-//    int get_posy(){return posy;}
-//    int get_dir(){return dir;}
-//    int get_nextdir(){return nextdir;}
-//    int get_changept(){return changept;}
-//    void set_px(int n){px=n;}
-//    void set_py(int n){py=n;}
-//    void set_posx(int n){posx=n;}
-//    void set_posy(int n){posy=n;}
-//    void set_dir(int d){dir = d;}
-//    void set_nextdir(int nd){nextdir = nd;}
-//    void set_changept(int npt){changept=npt;}
-//private:
-//    int px,py,posx,posy,dir, nextdir,changept, color;
-//    bool inbox;
-//    pixels *anim[4][10], *anindex[4];
+    void north();
+    void south();
+    void west();
+    void east();
+    int get_px(){return px;}
+    int get_py(){return py;}
+    int get_posx(){return posx;}
+    int get_posy(){return posy;}
+    int get_dir(){return dir;}
+    int get_nextdir(){return nextdir;}
+    int get_changept(){return changept;}
+    void set_px(int n){px=n;}
+    void set_py(int n){py=n;}
+    void set_posx(int n){posx=n;}
+    void set_posy(int n){posy=n;}
+    void set_dir(int d){dir = d;}
+    void set_nextdir(int nd){nextdir = nd;}
+    void set_changept(int npt){changept=npt;}
+private:
+    int px,py,posx,posy,dir, nextdir,changept, color;
+    bool inbox;
+    pixels *anim[4][10], *anindex[4];
 
 };
 QT_BEGIN_NAMESPACE

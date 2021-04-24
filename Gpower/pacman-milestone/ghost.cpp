@@ -2,7 +2,7 @@
 
 //void Character::north(){}; //out of line definition
 
-//Ghost::Ghost(int j, int i, int c):px(j),py(i),color(c){
+Ghost::Ghost(int j, int i, int c):px(j),py(i),color(c){
 
 
 //    // want to set inital values here and define different images to show change in direction
@@ -14,7 +14,7 @@
 //    switch(ghostNum){
 
 //    case 0:
-//        setPixmap(QPixmap(":/ghost/pink_left.png"));
+        setPixmap(QPixmap(":/ghost/pink_left.png"));
 //        // want to set inital values here and define different images to show change in direction
 //        break;
 //    case 1:
@@ -30,5 +30,17 @@
 //        // want to set inital values here and define different images to show change in direction
 //        break;
 //    }
-//}
+}
 // move pacman_movement from mainwindow.cpp to here and then include it in the function
+void Ghost::north(){
+
+}
+void Ghost::south(){
+
+}
+void Ghost::east(){
+
+}
+void Ghost::west(){
+
+}
