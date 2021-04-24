@@ -80,7 +80,7 @@ private:
 
 class Ghost: public Character {
 public:
-    Ghost(int,int);
+    Ghost(int,int, int);
     void moveup();
     void movedown();
     void moveleft();
