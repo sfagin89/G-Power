@@ -12,7 +12,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     maze.cpp \
-    pacman.cpp
+    pacman.cpp \
+    ghost.cpp
 
 HEADERS += \
     mainwindow.h
