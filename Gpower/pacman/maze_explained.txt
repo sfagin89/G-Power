@@ -8,7 +8,7 @@ wfwffwfwfwf9fffffffff9ffffwfwfwffwfw
 wfwffwfwfwf9ffffffffffffffwfwfwffwfw
 wfwffwfwfwf9ffffffffffffffwfwfwffwfw
 wfwffffffff9fffffffffffffffffffffwfw
-wfwpfffffff9ffffff9999999ffffffffwfw
+wfwffffffff9ffffff9999999ffffffffwfw
 wfwffwfwfwf9ffffff9ff9ff9fwfwfwffwfw
 wfwffwfwfwf9fffffffff9ffffwfwfwffwfw
 wfwffwfwfwf9fffffffff9ffffwfwfwffwfw
@@ -16,7 +16,7 @@ wffffwfwfwf99999999999ffffwfwfwffffw
 wfwwwwfwfwffffffffffffffffwfwfwwwwfw
 wffffffwffffffffffffffffffffwffffffw
 wfwwwwwwfwwwwwwww00wwwwwwwwfwwwwwwfw
-wbfffffffffffffwggggwfffffffffffffbw
+wbfffffffffffffwepeewfffffffffffffbw
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 
 f food
@@ -26,3 +26,4 @@ g ghost
 b cherry
 0 gate          (only one)
 9 G power
+e empty cell
