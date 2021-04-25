@@ -7,6 +7,7 @@ QGraphicsScene *scene;
 int gate_x, gate_y, total_corn, ate_corn, total_ate = 0; /* count dot and gates for ghosts */
 QLabel *scoreName, *count, *status_win, *status_lose = 0; /* score counter and status on top of game */
 Character *gPac; /* initiate pacman and 4 ghosts */
+Character *ghost[4];
 //QVector<QGraphicsPixmapItem*> cherries; /* for score keeping later on */
 bool lost=false, won=false; /* turns true lost-->ghost & pac algorithm, won-->total_corn == ate_corn */
 char maze[22][37]; /* wall ratio based on maze.txt */
