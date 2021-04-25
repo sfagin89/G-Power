@@ -33,11 +33,13 @@ MainWindow::MainWindow(QWidget *parent) :
     PowerBlink = new QTimer(this);
     PowerBlink->start(1000);
     connect(PowerBlink, SIGNAL(timeout()),this,SLOT(show_hide_cherry()));
-//    gtik = new QTimer(this);
-//    gtik->start(100);
-   // connect(ptik,SIGNAL(timeout()),this,SLOT(ghost_movement()));
-//    connect(ptik,SIGNAL(timeout()),this,SLOT(gPac->pacman_movement())); // is is for when the function gets
-//                                                                          // gets moved into the other file
+    ghost[0]->dir = 'U';
+    ghost[1]->dir = 'D';
+    ghost[2]->dir = 'U';
+    ghost[3]->dir = 'L';
+    gtik = new QTimer(this);
+    gtik->start(300);
+    connect(gtik,SIGNAL(timeout()),this,SLOT(ghost_movement()));
 }
 
 
@@ -117,87 +119,80 @@ void MainWindow::pacman_movement() { /* needs UI update to show
                 gPac->set_py(++ypos);
                 gPac->south();
                 qInfo() << "south";
-
             }
             break;
         default: /* this is the case where we have direction stopped or an empty file (ex. when game starts)*/
             break;
-
-
     }
-//    int new_posx = gPac->get_px();
-//    int new_posy = gPac->get_py();
-//    this->setPixmap()
-//    gPac->setPos(xaxis+new_posx*length, yaxis+new_posy*length);
-//    web[new_posx][new_posy] = nullptr;
-//    QCoreApplication::processEvents();
-//    QThread::usleep(500);
 
 }
+
 void MainWindow::ghost_movement(){ /* ghost is expected to back and forth from its current direction*/
-//int i;
-//int xpos, ypos;
-//char dir;
-//for(i=0 ; i<2 ; i++){
-//   xpos = ghost[i]->get_px();
-//   ypos = ghost[i]->get_py();
-//   dir = ghost[i]->dir;
-//   qInfo() << ypos;
-//   switch(dir) {
-//    case 'U': /* Up */
-//        if(maze[ypos-1][xpos] == 'N' ){
-//            ghost[i]->dir = 'D';
-//            ghost[i]->set_py(ypos+1);
-//        }
-//        else{
-//            ghost[i]->set_py(ypos-1);
-//        }
-//        break;
-//    case 'R': /* Right */
-//        if(maze[ypos][xpos+1] == 'N')/* if we have reached wall of maze or the end of the maze*/
-//        {
-//            ghost[i]->dir = 'L';
-//            ghost[i]->set_px(xpos-1);
-//        }
-//        else{
-//            ghost[i]->set_px(xpos+1);
-//        }
-//        break;
-//    case 'L': /* Left */
+int i;
+char dir;
+for(i=0 ; i<4 ; i++){
+  int xpos = ghost[i]->get_px();
+  int ypos = ghost[i]->get_py();
+  dir = ghost[i]->dir;
+
+  switch(dir) {
+
+   case 'U': /* Up */
 
 
-//        if(maze[ypos][xpos-1] == 'N' )/* if we have reached
-//                                                    a maze or the end of the maze*/
-//        {
-//            ghost[i]->dir = 'R';
-//            ghost[i]->set_px(xpos+1);
-//        }
-//        else{
-//            ghost[i]->set_px(xpos-1);
-//        }
-//        break;
-//    case 'D': /* Down */
+       if(maze[ypos-1][xpos] == 'N' ){
+           ghost[i]->dir = 'D';
+       }
+       else{
+           ghost[i]->set_py(ypos-1);
+       }
+       break;
+   case 'R': /* Right */
 
-//        if(maze[ypos+1][xpos] == 'N' || ypos+1 >36)/* if we have reached
-//                                                    a maze or the end of the maze*/
-//        {
-//            ghost[i]->dir = 'U';
-//            ghost[i]->set_py(ypos-1);
-//        }
-//        else{
-//            ghost[i]->set_py(ypos+1);
-//        }
-//        break;
-//    default: /* this is the case where we have direction stopped or an empty file (ex. when game starts) pacman does not move */
-//        break;
-//    }
 
-//   int new_posx = ghost[i]->get_px();
-//   int new_posy = ghost[i]->get_py();
-//   ghost[i]->setPos(xaxis+new_posx*length, yaxis+new_posy*length);
-//   QCoreApplication::processEvents();
-//   QThread::usleep(500);
-//    }
+       if(maze[ypos][xpos+1] == 'N' )/* if we have reached
+                                                   a maze or the end of the maze*/
+       {
+           ghost[i]->dir = 'L';
+       }
+       else{
+           ghost[i]->set_px(xpos+1);
+       }
+       break;
+   case 'L': /* Left */
+
+
+       if(maze[ypos][xpos-1] == 'N' )/* if we have reached
+                                                   a maze or the end of the maze*/
+       {
+           ghost[i]->dir = 'R';
+       }
+       else{
+           ghost[i]->set_px(xpos-1);
+       }
+       break;
+   case 'D': /* Down */
+
+       if(maze[ypos+1][xpos] == 'N' )/* if we have reached
+                                                   a maze or the end of the maze*/
+       {
+           ghost[i]->dir = 'U';
+       }
+       else{
+           ghost[i]->set_py(ypos+1);
+       }
+       break;
+   default: /* this is the case where we have direction stopped or an empty file (ex. when game starts)
+        pacman does not move */
+       break;
+    }
+    int newx = ghost[i]->get_px();
+    int newy = ghost[i]->get_py();
+    ghost[i]->setPos(xaxis+newx*length, yaxis+newy*length);
+    QCoreApplication::processEvents();
+    QThread::usleep(8000);
+
+}
 }
 void MainWindow::score(){
 
