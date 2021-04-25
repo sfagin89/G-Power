@@ -1,0 +1,29 @@
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+wbffffffffffffffffffffffffffffffffbw
+wfwwwwwwfwwwwwwwwwwwwwwwwwwfwwwwwwfw
+wffffffwffffffffffffffffffffwffffffw
+wfwwwwfwfwfffffffbffffffffwfwfwwwwfw
+wffffwfwfwf99999999999ffffwfwfwffffw
+wfwffwfwfwf9fffffffff9ffffwfwfwffwfw
+wfwffwfwfwf9ffffffffffffffwfwfwffwfw
+wfwffwfwfwf9ffffffffffffffwfwfwffwfw
+wfwffffffff9fffffffffffffffffffffwfw
+wfwffffffff9ffffff9999999ffffffffwfw
+wfwffwfwfwf9ffffff9ff9ff9fwfwfwffwfw
+wfwffwfwfwf9fffffffff9ffffwfwfwffwfw
+wfwffwfwfwf9fffffffff9ffffwfwfwffwfw
+wffffwfwfwf99999999999ffffwfwfwffffw
+wfwwwwfwfwffffffffffffffffwfwfwwwwfw
+wffffffwffffffffffffffffffffwffffffw
+wfwwwwwwfwwwwwwww00wwwwwwwwfwwwwwwfw
+wbfffffffffffffwepeewfffffffffffffbw
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+
+f food
+w wall
+p pacman        (only one)
+g ghost
+b cherry
+0 gate          (only one)
+9 G power
+e empty cell

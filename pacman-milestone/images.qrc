@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ghost/blue_left.png</file>
+        <file>ghost/blue_right.png</file>
+        <file>ghost/pink_left.png</file>
+        <file>ghost/pink_right.png</file>
+        <file>ghost/red_left.png</file>
+        <file>ghost/red_right.png</file>
+        <file>ghost/yellow_left.png</file>
+        <file>ghost/yellow_right.png</file>
+        <file>pacman/maze.txt</file>
+        <file>pacman/wall.png</file>
+        <file>pacman/Gpower.png</file>
+        <file>pacman/cherry.png</file>
+        <file>pacman/dot.png</file>
+        <file>pacman/gate.png</file>
+        <file>pacman/move.txt</file>
+        <file>pacman/0.png</file>
+        <file>pacman/1.png</file>
+        <file>pacman/2.png</file>
+        <file>pacman/3.png</file>
+        <file>pacman/start.png</file>
+    </qresource>
+</RCC>
