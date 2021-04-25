@@ -4,7 +4,7 @@
 #include <QFile>
 
 QGraphicsScene *scene;
-int gate_x, gate_y, total_corn, ate_corn, total_ate = 0; /* count dot and gates for ghosts */
+int total_corn, ate_corn, total_ate = 0; /* count dot and gates for ghosts */
 QLabel *scoreName, *count, *status_win, *status_lose = 0; /* score counter and status on top of game */
 Character *gPac, *ghost[4]; /* initiate pacman and 4 ghosts */
 QVector<QGraphicsPixmapItem*> cherries; /* for score keeping later on */
@@ -72,13 +72,11 @@ void MainWindow::build_maze() {
                 scene->addItem(web[i][j]);
                 web[i][j]->setPos(xaxis+j*length, yaxis+i*length);
                 cherries.push_back(web[i][j]);
-                qInfo() << "og size: " << cherries.size();
                 maze[i][j] = 'Y';
                 break;
             case '0': /* gate for ghost */
                 web[i][j] = new QGraphicsPixmapItem(QPixmap(":/pacman/gate.png"));
                 scene->addItem((web[i][j]));
-                qInfo() << i << j;
                 web[i][j]->setPos(xaxis+j*length, yaxis+i*length);
                 maze[i][j] = 'Y';
                 break;
@@ -86,8 +84,6 @@ void MainWindow::build_maze() {
                 web[i][j] = new QGraphicsPixmapItem(Gpower);
                 scene->addItem(web[i][j]);
                 web[i][j]->setPos(xaxis+j*length, yaxis+i*length);
-                gate_x=j;
-                gate_y=i;
                 maze[i][j] = 'N';
                 break;
             default:

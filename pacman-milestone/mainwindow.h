@@ -27,6 +27,7 @@ extern QGraphicsScene *scene;
 extern QVector<QPair<int,int>> del_awaits; // (i,j)
 extern QVector<QGraphicsPixmapItem*> cherries;
 extern QVector<QGraphicsPixmapItem*> miniBalls;
+extern int total_corn, ate_corn, total_ate; /* count dot and gates for ghosts */
 
 class Character: public QGraphicsPixmapItem {
 public:

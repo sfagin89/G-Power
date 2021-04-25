@@ -39,7 +39,7 @@ void Pacman::north() {
     //  int remender = (posy-yaxis)%length;
     py = (posy-yaxis)/length;
     dir = 0;
-    while(py>0 && maze[py-1][px] == 'Y'){
+    if(py>0 && maze[py-1][px] == 'Y'){
     //    qInfo() << "called up 2" << py-1 << px;
         addscore(py-1,px);
         for(int i=0; i<length; ++i) {
@@ -48,6 +48,7 @@ void Pacman::north() {
             QCoreApplication::processEvents();
             QThread::usleep(8000);
         }
+        posy = static_cast<int>(this->y());
 //        qInfo() << "called up 3";
 //        if (w.miniBalls.contains(web[py-1][px])) {
 //              qInfo() << "yes!" << py-1 << px;
@@ -67,12 +68,10 @@ void Pacman::north() {
 }
 
 void Pacman::east() {
- //   qInfo() << "called right";
     int posx = static_cast<int>(this->x());
     px = (posx-xaxis)/length;
-  //  int remender = (posy-yaxis)%length;
     dir = 0;
-    while(px < 36 && maze[py][px+1] == 'Y'){
+    if(px < 36 && maze[py][px+1] == 'Y'){
         addscore(py,px+1);
         for(int i=0; i<length; ++i) {
             this->setPixmap(pix[1]->pixmap);
@@ -80,17 +79,16 @@ void Pacman::east() {
             QCoreApplication::processEvents();
             QThread::usleep(8000);
         }
+        posx = static_cast<int>(this->x());
         ++px;
     }
 }
 
 void Pacman::west() {
-  //  qInfo() << "called left";
     int posx = static_cast<int>(this->x());
     px = (posx-xaxis)/length;
-  //  int remender = (posy-yaxis)%length;
     dir = 0;
-    while(px>0 && maze[py][px-1] == 'Y'){
+    if(px>0 && maze[py][px-1] == 'Y'){
         addscore(py,px-1);
         for(int i=0; i<length; ++i) {
             this->setPixmap(pix[2]->pixmap);
@@ -98,17 +96,16 @@ void Pacman::west() {
             QCoreApplication::processEvents();
             QThread::usleep(8000);
         }
+        posx = static_cast<int>(this->x());
         --px;
     }
 }
 
 void Pacman::south() {
-   // qInfo() << "called down";
     int posy = static_cast<int>(this->y());
-  //  int remender = (posy-yaxis)%length;
     py = (posy-yaxis)/length;
     dir = 0;
-    while(py<21 && maze[py+1][px] == 'Y'){
+    if(py<21 && maze[py+1][px] == 'Y'){
         addscore(py+1,px);
         for(int i=0; i<length; ++i) {
             this->setPixmap(pix[3]->pixmap);
@@ -116,12 +113,13 @@ void Pacman::south() {
             QCoreApplication::processEvents();
             QThread::usleep(8000);
         }
+        posy = static_cast<int>(this->y());
         ++py;
     }
 }
 
 int Pacman::addscore(int x, int y) {
-   // qInfo() << "cherry size! : "<< cherries.size();
+    //qInfo() << "total_corn" << total_corn;
     if (x == 18 && y == 19) {
         return 0;
     }
@@ -129,19 +127,15 @@ int Pacman::addscore(int x, int y) {
     if (x == 18 && y == 18) {
         return 0;
     }
-
     for (int i = 0; i < cherries.size(); i++) {
-     //   qInfo() << "compare: "<< cherries.at(i)  << web[x][y];
         if (cherries.at(i) == web[x][y]) {
-       //     qInfo() << "cherries: " << cherries.at(i);
             cherries.remove(i);
-         //   qInfo() << "here size: " << cherries.size();
             delete web[x][y];
             web[x][y] = nullptr;
             return 0;
         }
     }
-    qInfo() << x << y;
+
     delete web[x][y];
     web[x][y] = nullptr;
     return 0;

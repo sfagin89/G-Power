@@ -27,11 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setStyleSheet("QGraphicsView {border: none;}"); /* screen with no border */
     ui->graphicsView->setBackgroundBrush(Qt::black); /* set background to black color */
     build_maze();
-   // score();
-//    delete web[17][18];
-//    web[17][18] = nullptr;
     ptik = new QTimer(this);
-    ptik->start(1000);
+    ptik->start(50);
     connect(ptik,SIGNAL(timeout()),this,SLOT(pacman_movement()));
     PowerBlink = new QTimer(this);
     PowerBlink->start(1000);
@@ -48,20 +45,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //    scoring = new QTimer(this);
 //    scoring->start(200);
-//    connect(scoring, SIGNAL(timeout()),this,SLOT(score()));
-
-
-
-//    gtik = new QTimer(this);
-//    gtik->start(100);
-   // connect(ptik,SIGNAL(timeout()),this,SLOT(ghost_movement()));
-//    connect(ptik,SIGNAL(timeout()),this,SLOT(gPac->pacman_movement())); // is is for when the function gets
-//                                                                          // gets moved into the other file
+//    connect(scoring, SIGNAL(timeout()),this,SLOT(score()));                                                                        // gets moved into the other file
 }
 
 
 void MainWindow::show_hide_cherry() {
-    qInfo() << "size: " << cherries.size();
     initial_blink = (initial_blink^1);
     if (initial_blink == 0) {
         for (int num = 0; num < cherries.size(); num++) {
@@ -82,6 +70,9 @@ void MainWindow::pacman_movement() { /* needs UI update to show
     movement.open(QIODevice::ReadOnly);
     QTextStream stream(&movement);
     QByteArray direction = movement.readLine();
+    if (direction == nullptr) {
+        return;
+    }
     char get = direction.at(0);
     xpos = gPac->get_px();
     ypos = gPac->get_py();
@@ -90,7 +81,6 @@ void MainWindow::pacman_movement() { /* needs UI update to show
      * and we can see that the px and py variables re updated each time*/
     switch(get) {
         case 'U': /* Up */
-       //     qInfo() << "up!!!!";
             if(maze[ypos-1][xpos] == 'N' || ypos-1 < 0){
                 gPac->dir = 'S'; // direction of pacman is stoped
             }
@@ -98,11 +88,9 @@ void MainWindow::pacman_movement() { /* needs UI update to show
                 gPac->dir = 'U';
                 gPac->set_py(--ypos);
                 gPac->north();
-         //       qInfo() << "north";
             }
             break;
         case 'R': /* Right */
-           // qInfo() << "Right!!!!";
             if(maze[ypos][xpos+1] == 'N' || xpos+1 >36)/* if we have reached
                                                         a maze or the end of the maze*/
             {
@@ -112,7 +100,6 @@ void MainWindow::pacman_movement() { /* needs UI update to show
                 gPac->dir = 'R';
                 gPac->set_px(++xpos);
                 gPac->east();
-        //        qInfo() << "east";
             }
             break;
         case 'L': /* Left */
@@ -125,11 +112,9 @@ void MainWindow::pacman_movement() { /* needs UI update to show
                 gPac->dir = 'L';
                 gPac->set_px(--xpos);
                 gPac->west();
-         //       qInfo() << "west";
             }
             break;
         case 'D': /* Down */
-       // qInfo() << "Down!!!!";
             if(maze[ypos+1][xpos] == 'N' || ypos+1 > 21)/* if we have reached
                                                         a maze or the end of the maze*/
             {
@@ -139,23 +124,12 @@ void MainWindow::pacman_movement() { /* needs UI update to show
                 gPac->dir = 'D';
                 gPac->set_py(++ypos);
                 gPac->south();
-           //     qInfo() << "south";
 
             }
             break;
         default: /* this is the case where we have direction stopped or an empty file (ex. when game starts)*/
             break;
-
-
     }
-//    int new_posx = gPac->get_px();
-//    int new_posy = gPac->get_py();
-//    this->setPixmap()
-//    gPac->setPos(xaxis+new_posx*length, yaxis+new_posy*length);
-//    web[new_posx][new_posy] = nullptr;
-//    QCoreApplication::processEvents();
-//    QThread::usleep(500);
-
 }
 
 void MainWindow::ghost_movement(){ /* ghost is expected to back and forth from its current direction*/
