@@ -350,7 +350,7 @@ int main(int argc, char *argv[]) {
 
   //APDS9960_ID = 0x92 is the target register to read from
   i2c_read(file, buf, 1, APDS9960_ID);
-  printf("Device ID read from Register 0x%x: %x\n", APDS9960_ID, buf[0]);
+  //printf("Device ID read from Register 0x%x: %x\n", APDS9960_ID, buf[0]); //Debug Print Statement
 
   /*****************************************************
    * SetMode Portion of Initialization
@@ -481,21 +481,21 @@ int main(int argc, char *argv[]) {
        if((reg_dump != 0x82) && (reg_dump != 0x8A) && (reg_dump != 0x91) && (reg_dump != 0xA8) && (reg_dump != 0xAC) && (reg_dump != 0xAD)){
          i2c_read(file, buf, 1, reg_dump);
          val_dump = buf[0];
-         printf("0x%x: 0x%x\n", reg_dump, val_dump);
+         //printf("0x%x: 0x%x\n", reg_dump, val_dump); //Debug Print Statement
        }
      }
 
      for (reg_dump = 0xE4; reg_dump <= 0xE7; reg_dump++){
        i2c_read(file, buf, 1, reg_dump);
        val_dump = buf[0];
-       printf("0x%x: 0x%x\n", reg_dump, val_dump);
+       //printf("0x%x: 0x%x\n", reg_dump, val_dump); //Debug Print Statement
      }
 
      /*****************************************************
       * Initialization Complete
       *****************************************************/
 
-     printf("APDS-9960 initialization complete\n");
+     printf("APDS-9960 initialization complete\n"); //Debug Print Statement
 
      /*****************************************************
       * Enabling Gesture Sensor
@@ -595,7 +595,7 @@ int main(int argc, char *argv[]) {
    //Writing value back to Enable register
    i2c_write(file, buf, 2, APDS9960_ENABLE, reg_val);
 
-    printf("Gesture Sensor Engine is Enabled and Running\n");
+    printf("Gesture Sensor Engine is Enabled and Running\n"); //Debug Print Statement
 
     /*****************************************************
      * Gesture Sensor Enabled
@@ -611,10 +611,10 @@ int main(int argc, char *argv[]) {
       //Interrupt Pin active LOW
       if (ch == '0'){
         interruptRoutine();
-        printf("Interrupt Routine Triggered\n");
+        //printf("Interrupt Routine Triggered\n"); //Debug Print Statement
       }
       if (isr_flag == 1) {
-        printf("isr_flag = %d\n", isr_flag);
+        //printf("isr_flag = %d\n", isr_flag); //Debug Print Statement
         //!!FILL THIS IN!!detachInterrupt
         /*****************************************************
          * Begin Gesture Handling
@@ -626,8 +626,8 @@ int main(int argc, char *argv[]) {
         //If reg_val == 1, then Gesture is available
         if (reg_val == 1){
           //Reading Gesture
-          printf("Gesture is available, reg_val = %d\n", reg_val);
-          printf("Reading Gesture\n");
+          //printf("Gesture is available, reg_val = %d\n", reg_val); //Debug Print Statement
+          printf("Reading Gesture\n"); //Debug Print Statement
           int fifo_level = 0;
           char fifo_data[128]; //changed from int for i2c_read
           int gstatus;
@@ -650,25 +650,25 @@ int main(int argc, char *argv[]) {
           int processGesture = 0;
           int decodeGesture = 1;
           while(1){ //Might need to move this back into the outer loop. !!IMPORTANT!!
-            printf("Entering Nested Loop\n");
+            //printf("Entering Nested Loop\n"); //Debug Print Statement
             delay(FIFO_PAUSE_TIME);
             i2c_read(file, buf, 1, APDS9960_GSTATUS);
             gstatus = buf[0];
-            printf("Checking if data is valid\n");
+            //printf("Checking if data is valid\n"); //Debug Print Statement
             if((gstatus & APDS9960_GVALID) == APDS9960_GVALID){
               i2c_read(file, buf, 1, APDS9960_GFLVL);
               fifo_level = buf[0];
 
               //Debug This, Might need a loop !!IMPORTANT!!
               //Likely need a better way to read in more values?
-              printf("Data is valid, fifo_level is %d\n", fifo_level);
+              //printf("Data is valid, fifo_level is %d\n", fifo_level); //Debug Print Statement
               if(fifo_level > 0){
-                printf("There is data in the FIFO (level > 0)\n");
+                //printf("There is data in the FIFO (level > 0)\n"); //Debug Print Statement
                 i2c_read(file, fifo_data, fifo_level * 4, APDS9960_GFIFO_U);
 
                 bytes_read = fifo_level * 4;
-                printf("Read in %d bytes\n", bytes_read);
-                printf("The value of those bytes is 1: %d\n", fifo_data[0]);
+                //printf("Read in %d bytes\n", bytes_read); //Debug Print Statement
+                //printf("The value of those bytes is 1: %d\n", fifo_data[0]); //Debug Print Statement
 
                 if (bytes_read >= 4){
                   for(i = 0; i < bytes_read; i += 4){
@@ -679,7 +679,7 @@ int main(int argc, char *argv[]) {
                     gesture_data_.index++;
                     gesture_data_.total_gestures++;
                   }
-                  printf("Total gestures tallied: %d\n", gesture_data_.total_gestures);
+                  //printf("Total gestures tallied: %d\n", gesture_data_.total_gestures); //Debug Print Statement
                   //This is being triggered when it shouldn't so total_gestures probably isn't being incremented correctly
                   if((gesture_data_.total_gestures <= 4) || (gesture_data_.total_gestures > 32)){
                     processGesture = 0;
@@ -710,66 +710,66 @@ int main(int argc, char *argv[]) {
                     }
 
                     /* Calculate the first vs. last ratio of up/down and left/right */
-                    printf("Calculating first vs last ratio of up/down and left/right\n");
+                    //printf("Calculating first vs last ratio of up/down and left/right\n"); //Debug Print Statement
                     ud_ratio_first = ((u_first - d_first) * 100) / (u_first + d_first);
                     lr_ratio_first = ((l_first - r_first) * 100) / (l_first + r_first);
                     ud_ratio_last = ((u_last - d_last) * 100) / (u_last + d_last);
                     lr_ratio_last = ((l_last - r_last) * 100) / (l_last + r_last);
-                    printf("ud_ratio_first: %d\n", ud_ratio_first);
-                    printf("lr_ratio_first: %d\n", lr_ratio_first);
-                    printf("ud_ratio_last: %d\n", ud_ratio_last);
-                    printf("lr_ratio_last: %d\n", lr_ratio_last);
+                    //printf("ud_ratio_first: %d\n", ud_ratio_first); //Debug Print Statement
+                    //printf("lr_ratio_first: %d\n", lr_ratio_first); //Debug Print Statement
+                    //printf("ud_ratio_last: %d\n", ud_ratio_last); //Debug Print Statement
+                    //printf("lr_ratio_last: %d\n", lr_ratio_last); //Debug Print Statement
 
                     /* Determine the difference between the first and last ratios */
                     ud_delta = ud_ratio_last - ud_ratio_first;
                     lr_delta = lr_ratio_last - lr_ratio_first;
-                    printf("ud_delta: %d\n", ud_delta);
-                    printf("lr_delta: %d\n", lr_delta);
+                    //printf("ud_delta: %d\n", ud_delta); //Debug Print Statement
+                    //printf("lr_delta: %d\n", lr_delta); //Debug Print Statement
 
                     /* Accumulate the UD and LR delta values */
                     gesture_ud_delta_ += ud_delta;
                     gesture_lr_delta_ += lr_delta;
-                    printf("gesture_ud_delta_: %d\n", gesture_ud_delta_);
-                    printf("gesture_lr_delta_: %d\n", gesture_lr_delta_);
+                    //printf("gesture_ud_delta_: %d\n", gesture_ud_delta_); //Debug Print Statement
+                    //printf("gesture_lr_delta_: %d\n", gesture_lr_delta_); //Debug Print Statement
 
-                    printf("GESTURE_SENSITIVITY_1: %d\n", GESTURE_SENSITIVITY_1);
+                    //printf("GESTURE_SENSITIVITY_1: %d\n", GESTURE_SENSITIVITY_1); //Debug Print Statement
                     /* Determine U/D gesture */
-                    printf("Determing Up/Down Gesture\n");
+                    //printf("Determing Up/Down Gesture\n"); //Debug Print Statement
                     if( gesture_ud_delta_ >= GESTURE_SENSITIVITY_1 ) {
                       gesture_ud_count_ = 1;
-                      printf("Detected Gesture UP exceeded threshold\n");
+                      //printf("Detected Gesture UP exceeded threshold\n"); //Debug Print Statement
                     } else if( gesture_ud_delta_ <= -GESTURE_SENSITIVITY_1 ) {
                       gesture_ud_count_ = -1;
-                      printf("Detected Gesture DOWN exceeded threshold\n");
+                      //printf("Detected Gesture DOWN exceeded threshold\n"); //Debug Print Statement
                     } else {
                       gesture_ud_count_ = 0;
-                      printf("No Up or Down gesture exceeded threshold\n");
+                      //printf("No Up or Down gesture exceeded threshold\n"); //Debug Print Statement
                     }
 
                     /* Determine L/R gesture */
-                    printf("Determing Left/Right Gesture\n");
+                    //printf("Determing Left/Right Gesture\n"); //Debug Print Statement
                     if( gesture_lr_delta_ >= GESTURE_SENSITIVITY_1 ) {
                       gesture_lr_count_ = 1;
-                      printf("Detected Gesture LEFT exceeded threshold\n");
+                      //printf("Detected Gesture LEFT exceeded threshold\n"); //Debug Print Statement
                     } else if( gesture_lr_delta_ <= -GESTURE_SENSITIVITY_1 ) {
                       gesture_lr_count_ = -1;
-                      printf("Detected Gesture RIGHT exceeded threshold\n");
+                      //printf("Detected Gesture RIGHT exceeded threshold\n"); //Debug Print Statement
                     } else {
                       gesture_lr_count_ = 0;
-                      printf("No LEFT or RIGHT gesture exceeded threshold\n");
+                      //printf("No LEFT or RIGHT gesture exceeded threshold\n"); //Debug Print Statement
                     }
 
                     /* Determine Near/Far gesture */
-                    printf("Determining Near/Far gesture\n");
+                    //printf("Determining Near/Far gesture\n"); //Debug Print Statement
                     if((gesture_ud_count_ == 0) && (gesture_lr_count_ == 0)){
-                      printf("No Up/Down or Left/Right gestures detected\n");
+                      //printf("No Up/Down or Left/Right gestures detected\n"); //Debug Print Statement
                       if((abs(ud_delta) < GESTURE_SENSITIVITY_2) && (abs(lr_delta) < GESTURE_SENSITIVITY_2)){
                         if((ud_delta == 0) && (lr_delta == 0)){
                           gesture_near_count_++;
-                          printf("Detected Nearness exceeded threshold\n");
+                          //printf("Detected Nearness exceeded threshold\n"); //Debug Print Statement
                         } else if((ud_delta != 0) || (lr_delta != 0)){
                           gesture_far_count_++;
-                          printf("Detected Farness exceeded threshold\n");
+                          //printf("Detected Farness exceeded threshold\n"); //Debug Print Statement
                         }
                         if((gesture_near_count_ >= 10) && (gesture_far_count_ >= 2)){
                           if((ud_delta == 0) && (lr_delta == 0)){
@@ -778,7 +778,7 @@ int main(int argc, char *argv[]) {
                             gesture_state_ = FAR_STATE;
                           }
                           processGesture = 1;
-                          printf("Line 818: Process Gesture = %d\n", processGesture);
+                          //printf("Line 781: Process Gesture = %d\n", processGesture); //Debug Print Statement
                         }
                       }
                     } else {
@@ -795,16 +795,16 @@ int main(int argc, char *argv[]) {
                       }
                     }
 
-                    printf("UD_CT: %d\n", gesture_ud_count_);
-                    printf("LR_CT: %d\n", gesture_lr_count_);
-                    printf("NEAR_CT: %d\n", gesture_near_count_);
-                    printf("FAR_CT: %d\n", gesture_far_count_);
-                    printf("------------\n");
+                    //printf("UD_CT: %d\n", gesture_ud_count_); //Debug Print Statement
+                    //printf("LR_CT: %d\n", gesture_lr_count_); //Debug Print Statement
+                    //printf("NEAR_CT: %d\n", gesture_near_count_); //Debug Print Statement
+                    //printf("FAR_CT: %d\n", gesture_far_count_); //Debug Print Statement
+                    //printf("------------\n"); //Debug Print Statement
                   }
-                  printf("processGesture = %d\n", processGesture);
-                  printf("Checking Process Gesture Value\n");
+                  //printf("processGesture = %d\n", processGesture); //Debug Print Statement
+                  //printf("Checking Process Gesture Value\n"); //Debug Print Statement
                   if(processGesture){
-                    printf("Within Process Gesture Checking\n");
+                    //printf("Within Process Gesture Checking\n"); //Debug Print Statement
                     /***** Beginning of DecodeGesture Function *****/
                     /* Return if near or far event is detected */
                     if(gesture_state_ == NEAR_STATE){
@@ -851,7 +851,7 @@ int main(int argc, char *argv[]) {
                     }
                     /***** End of DecodeGesture Function *****/
                     if(decodeGesture){
-                      printf("Gesture Motion: %d", gesture_motion_);
+                      //printf("Gesture Motion: %d", gesture_motion_); //Debug Print Statement
                     }
                   }
                 //reset Data
@@ -908,7 +908,7 @@ int main(int argc, char *argv[]) {
               /***** End of DecodeGesture Function *****/
 
               motion = gesture_motion_;
-              printf("Gesture motion to return is: %d\n", motion);
+              printf("Gesture motion to return is: %d\n", motion); //Debug Print Statement
 
               /***** Resetting Gesture Parameters *****/
               gesture_data_.index = 0;
@@ -922,7 +922,7 @@ int main(int argc, char *argv[]) {
               gesture_state_ = 0;
               gesture_motion_ = DIR_NONE;
               /***** End of Gesture Parameters Reset *****/
-              printf("Exiting Inner Nested Loop\n");
+              //printf("Exiting Inner Nested Loop\n");
               break;
             }
           } //End of Nested Loop
@@ -964,7 +964,7 @@ int main(int argc, char *argv[]) {
     } while(1);
 
     //Unexporting the pin, not needed but added anyways.
-    printf("Code exiting\n");
+    printf("Code exiting\n"); //Debug Print Statement
     len = snprintf(uexPin_buf, sizeof(uexPin_buf), "%d", APDS9960_INT);
     fd = open("/sys/class/gpio/unexport", O_WRONLY);
     write(fd, uexPin_buf, len);
