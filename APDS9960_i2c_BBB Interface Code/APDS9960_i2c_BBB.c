@@ -926,7 +926,7 @@ int main(int argc, char *argv[]) {
               break;
             }
           } //End of Nested Loop
-          fp = fopen("test.txt", "w+");
+          fp = fopen("move.txt", "w+");
           switch(motion){
             case DIR_UP:
               printf("UP");
