@@ -4,7 +4,7 @@
 #include <QFile>
 
 QGraphicsScene *scene;
-int total_corn, ate_corn, total_ate = 0; /* count dot and gates for ghosts */
+int total_corn, keep_score, total_ate = 0; /* count dot and gates for ghosts */
 QLabel *scoreName, *count, *status_win, *status_lose = 0; /* score counter and status on top of game */
 Character *gPac, *ghost[4]; /* initiate pacman and 4 ghosts */
 QVector<QGraphicsPixmapItem*> cherries; /* for score keeping later on */
@@ -43,6 +43,7 @@ void MainWindow::build_maze() {
                 web[i][j] = new QGraphicsPixmapItem(dot);
                 scene->addItem(web[i][j]);
                 web[i][j]->setPos(xaxis+j*length, yaxis+i*length);
+                web[i][j]->setZValue(-1);
                 miniBalls.push_back(web[i][j]);
                 maze[i][j] = 'Y';
                 break;
@@ -93,6 +94,8 @@ void MainWindow::build_maze() {
         }
     }
 
+/******************************************* GUI Label below **********************************************/
+
     status_win = new QLabel(this);
     status_win->hide();
     status_win->setText("Won!");
@@ -126,12 +129,3 @@ void MainWindow::build_maze() {
     count->setGeometry(83,10,60,25);
 
 }
-//void MainWindow::score() {
-
-//    delete web[17][18];
-//    web[17][18] = nullptr;
-//    delete web[16][18];
-//    web[16][18] = nullptr;
-//    qInfo() << "called score";
-
-//}
