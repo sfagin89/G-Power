@@ -27,57 +27,11 @@
  * * Added GPIO Functionality, compiles but doesn't handdle loops properly
  * * * Does react to gestures over the sensor though.
  * Set interrupt function to correctly react to Active Low
- * Debugging still in process, currently outputs the following:
- Reading pin 49
- Reading pin 49
- Reading pin 49
- Reading pin 49
- Interrupt Routine Triggered
- isr_flag = 1
- Gesture is available, reg_val = 1
- Reading Gesture
- Entering Nested Loop
- Checking if data is valid
- Data is valid, fifo_level is 4
- There is data in the FIFO (level > 0)
- Read in 16 bytes
- The value of those bytes is 1: 18
- Total gestures tallied: 4
- processGesture = 0
- Checking Process Gesture Value
- Entering Nested Loop
- Checking if data is valid
- Data is valid, fifo_level is 1
- There is data in the FIFO (level > 0)
- Read in 4 bytes
- The value of those bytes is 1: 32
- Total gestures tallied: 1
- processGesture = 0
- Checking Process Gesture Value
- Entering Nested Loop
- Checking if data is valid
- Data is valid, fifo_level is 0
- Entering Nested Loop
- Checking if data is valid
- Data is valid, fifo_level is 0
- Entering Nested Loop
- Checking if data is valid
- Data is valid, fifo_level is 1
- There is data in the FIFO (level > 0)
- Read in 4 bytes
- The value of those bytes is 1: 24
- Total gestures tallied: 1
- processGesture = 0
- Checking Process Gesture Value
- Entering Nested Loop
- Checking if data is valid
- Gesture motion to return is: 0
- Exiting Inner Nested Loop
- NONEReading pin 49
- Reading pin 49
- Reading pin 49
- Reading pin 49
- Reading pin 49
+ * Adjusted GESTURE_SENSITIVITY_1 and GESTURE_SENSITIVITY_2 to reduce the
+ * * minimum deltas needed to detect direction.
+ * Currently predicts direction fairly accurately, though it tends to be
+ * biased to Right (motion value 2).
+ * 1 and 2 (left & right) are easier to reproduce than 3 and 4 (Up and Down)
  *
  * Desired Functionality:
  * * Initialize I2C communication
@@ -103,8 +57,8 @@
  #include <time.h>
 
  //interrupt pin
- #define APDS9960_INT 49 // GPIO_49 = Pin P9_23
- #define SYSFS_GPIO_DIR "/sys/class/gpio"
+ #define APDS9960_INT            49 // GPIO_49 = Pin P9_23
+ #define SYSFS_GPIO_DIR          "/sys/class/gpio"
 
  /* Debug */
  #define DEBUG                   0
@@ -115,7 +69,7 @@
  /* Gesture parameters */
  #define GESTURE_THRESHOLD_OUT   10
  #define GESTURE_SENSITIVITY_1   10 //Changed from 50 to 10
- #define GESTURE_SENSITIVITY_2   20
+ #define GESTURE_SENSITIVITY_2   50 //Changed from 20 to 50, don't want to trigger it
 
  /* Error code for returned values */
  #define ERROR                   0xFF
