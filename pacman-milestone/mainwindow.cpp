@@ -13,8 +13,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setBackgroundBrush(Qt::black); /* set background to black color */
     build_maze();
     /************************************************ GUI definition above *************************************************/
-
     /******************************************* pacman call definition below **********************************************/
+    QString filename = "/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt";
+    QFile movement(filename);
+    if (!movement.open(QIODevice::ReadWrite)) {
+        qInfo() << "file open error";
+    }
     ptik = new QTimer(this);
     ptik->start(50);
     connect(ptik,SIGNAL(timeout()),this,SLOT(pacman_movement()));
