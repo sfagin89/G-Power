@@ -740,9 +740,9 @@ int main(int argc, char *argv[]) {
                     printf("gesture_lr_delta_: %d\n", gesture_lr_delta_); //Debug Print Statement
 
                     //calibrating sensor values
-                    if((abs(gesture_ud_delta_) > abs(gesture_lr_delta_)){
+                    if( abs(gesture_ud_delta_) > abs(gesture_lr_delta_) ){
                       gesture_ud_delta_ = gesture_ud_delta_ * 10;
-                    } else if((abs(gesture_ud_delta_) < abs(gesture_lr_delta_)){
+                    } else if(abs(gesture_ud_delta_) < abs(gesture_lr_delta_)){
                       gesture_lr_delta_ = gesture_lr_delta_ * 10;
                     }
 
