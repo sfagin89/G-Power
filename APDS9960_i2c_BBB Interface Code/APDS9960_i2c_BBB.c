@@ -739,6 +739,13 @@ int main(int argc, char *argv[]) {
                     printf("gesture_ud_delta_: %d\n", gesture_ud_delta_); //Debug Print Statement
                     printf("gesture_lr_delta_: %d\n", gesture_lr_delta_); //Debug Print Statement
 
+                    //calibrating sensor values
+                    if((abs(gesture_ud_delta_) > abs(gesture_lr_delta_)){
+                      gesture_ud_delta_ = gesture_ud_delta_ * 10;
+                    } else if((abs(gesture_ud_delta_) < abs(gesture_lr_delta_)){
+                      gesture_lr_delta_ = gesture_lr_delta_ * 10;
+                    }
+
                     printf("GESTURE_SENSITIVITY_1: %d\n", GESTURE_SENSITIVITY_1); //Debug Print Statement
                     /* Determine U/D gesture */
                     printf("Determing Up/Down Gesture\n"); //Debug Print Statement
@@ -953,15 +960,15 @@ int main(int argc, char *argv[]) {
               break;
             case DIR_NEAR:
               printf("NEAR\n");
-              fprintf(fp, "N\n");
+              //fprintf(fp, "N\n");
               break;
             case DIR_FAR:
               printf("FAR\n");
-              fprintf(fp, "F\n");
+              //fprintf(fp, "F\n");
               break;
             default:
               printf("NONE\n");
-              fprintf(fp, "X\n");
+              //fprintf(fp, "X\n");
           }
           fclose(fp);
         }
