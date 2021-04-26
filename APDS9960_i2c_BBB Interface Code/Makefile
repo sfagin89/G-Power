@@ -1,4 +1,4 @@
-# Makefile for kernal module user level interface ktimer
+# Makefile for APDS9960_i2c_BBB.c crosscompile to ARM
 
 APDS9960_i2c_BBB : APDS9960_i2c_BBB.o
 	arm-linux-gnueabihf-gcc -o APDS9960_i2c_BBB APDS9960_i2c_BBB.o -static
