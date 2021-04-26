@@ -68,8 +68,8 @@
 
  /* Gesture parameters */
  #define GESTURE_THRESHOLD_OUT   10
- #define GESTURE_SENSITIVITY_1   20 //Changed from 50 to 10, to 20
- #define GESTURE_SENSITIVITY_2   50 //Changed from 20 to 50, to 0 to prevent triggering
+ #define GESTURE_SENSITIVITY_1   50
+ #define GESTURE_SENSITIVITY_2   0 //Changed from 20 to 0 to prevent triggering
 
  /* Error code for returned values */
  #define ERROR                   0xFF
@@ -322,6 +322,14 @@ int main(int argc, char *argv[]) {
   int gesture_far_count_;
   int gesture_state_;
   int gesture_motion_;
+
+  //Verify Pin is not already in use
+  len = snprintf(uexPin_buf, sizeof(uexPin_buf), "%d", APDS9960_INT);
+  fd = open("/sys/class/gpio/unexport", O_WRONLY);
+  if(!write(fd, uexPin_buf, len)){
+    printf("Pin was not in use\n");
+  }
+  close(fd);
 
   //Export GPIO Pin for Interrupt
   len = snprintf(exPin_buf, sizeof(exPin_buf), "%d", APDS9960_INT);
