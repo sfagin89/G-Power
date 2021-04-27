@@ -15,6 +15,7 @@
 #include <QLabel>
 #include "QThread"
 #include <QVector>
+#include <fstream>
 
 #define xaxis 30
 #define yaxis 30
@@ -29,6 +30,8 @@ extern QVector<QGraphicsPixmapItem*> miniBalls;
 extern int total_corn, keep_score, total_ate; /* count dot and gates for ghosts */
 extern bool lost, won;
 extern QLabel *scoreName, *count, *status_win, *status_lose;
+extern int cherryFreeze;
+extern bool cherryFreezeFlag;
 
 
 class Character: public QGraphicsPixmapItem {
@@ -100,9 +103,10 @@ public slots:
     void pacman_movement();
     void show_hide_cherry();
     void ghost_movement();
+    void exit_function();
 private:
     Ui::MainWindow *ui;
-    QTimer *PowerBlink, *ptik, *gtik;
+    QTimer *PowerBlink, *ptik, *gtik, *exit_;
     int initial_blink = 1;
 };
 

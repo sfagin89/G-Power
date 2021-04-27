@@ -14,14 +14,14 @@ MainWindow::MainWindow(QWidget *parent) :
     build_maze();
     /************************************************ GUI definition above *************************************************/
     /******************************************* pacman call definition below **********************************************/
-    //QString filename = "/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt";
-    QString filename = "/root/move.txt";
+    QString filename = "/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt";
+    //QString filename = "/root/move.txt";
     QFile movement(filename);
     if (!movement.open(QIODevice::ReadWrite)) {
         qInfo() << "file open error";
     }
     ptik = new QTimer(this);
-    ptik->start(50);
+    ptik->start(5);
     connect(ptik,SIGNAL(timeout()),this,SLOT(pacman_movement()));
     /******************************************* pacman call definition above **********************************************/
 
@@ -40,6 +40,14 @@ MainWindow::MainWindow(QWidget *parent) :
     gtik->start(200);
     connect(gtik,SIGNAL(timeout()),this,SLOT(ghost_movement()));
     /******************************************* ghost call definition above **********************************************/
+
+
+    /******************************************* exit call function above **********************************************/
+    exit_ = new QTimer(this);
+    exit_->start(5000);
+    connect(exit_,SIGNAL(timeout()),this,SLOT(exit_function()));
+    /******************************************* exit call function above **********************************************/
+
 }
 
 
@@ -64,7 +72,6 @@ void MainWindow::show_hide_cherry() {
 
 void MainWindow::pacman_movement() {
     /* reads sensor movement text file and triggers movement of pacman */
- //  qInfo() << "haha";
    for (int i = 0; i < 4; i++) {
        /* checks if any ghost intersects with pacman
           lose when detected an intersection and stop all timer
@@ -74,7 +81,7 @@ void MainWindow::pacman_movement() {
            ptik->stop();
            PowerBlink->stop();
            status_lose->show();
-           QCoreApplication::quit(); // quits the program
+           lost = true;
        }
    }
     if(won){
@@ -83,11 +90,10 @@ void MainWindow::pacman_movement() {
         ptik->stop();
         PowerBlink->stop();
         status_win->show();
-        QCoreApplication::quit(); // quits the program
     }
     int x_where, y_where;
-    //QFile movement("/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt"); /* sensor file */
-    QFile movement("/root/move.txt"); /* sensor file */
+    QFile movement("/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt"); /* sensor file */
+   // QFile movement("/root/move.txt"); /* sensor file */
     movement.open(QIODevice::ReadOnly);
     QTextStream stream(&movement);
     QByteArray direction = movement.readLine();
@@ -156,59 +162,129 @@ void MainWindow::ghost_movement(){
     int i;
     char direction;
     for(i=0 ; i<4 ; i++){
-    int x_where = ghost[i]->get_curr_x();
-    int y_where = ghost[i]->get_curr_y();
-    direction = ghost[i]->compass;
-    switch(direction) {
-    case 'U': /* Up */
-        ghost[i]->north();
-       if(maze[y_where-1][x_where] == 'N' ) {
-           /* if we have reached a maze or the end of the maze*/
-           ghost[i]->compass = 'D';
-       }
-       else{
-           ghost[i]->set_curr_y(y_where-1);
-       }
-       break;
-    case 'R': /* Right */
-       if(maze[y_where][x_where+1] == 'N' ) {
-           /* if we have reached a maze or the end of the maze*/
-           ghost[i]->compass = 'L';
-       }
-       else{
-           ghost[i]->set_curr_x(x_where+1);
-       }
-       break;
-    case 'L': /* Left */
-
-       if(maze[y_where][x_where-1] == 'N' ) {
-           /* if we have reached a maze or the end of the maze*/
-           ghost[i]->compass = 'R';
-       }
-       else{
-           ghost[i]->set_curr_x(x_where-1);
-       }
-       break;
-    case 'D': /* Down */
-
-       if(maze[y_where+1][x_where] == 'N' ) {
-           /* if we have reached a maze or the end of the maze*/
-           ghost[i]->compass = 'U';
-       }
-       else{
-           ghost[i]->set_curr_y(y_where+1);
-       }
-       break;
-    default:
-       break;
+        if (cherryFreezeFlag == true && cherryFreeze != 0) {
+            --cherryFreeze;
+            continue;
         }
-    int newx = ghost[i]->get_curr_x();
-    int newy = ghost[i]->get_curr_y();
-    ghost[i]->setPos(xaxis+newx*length, yaxis+newy*length);
-    QCoreApplication::processEvents();
-    QThread::usleep(8000);
+        else if (cherryFreeze == 0) {
+            cherryFreezeFlag = false;
+        }
+        int x_where = ghost[i]->get_curr_x();
+        int y_where = ghost[i]->get_curr_y();
+        direction = ghost[i]->compass;
+        switch(direction) {
+        case 'U': /* Up */
+           if(maze[y_where-1][x_where] == 'N' ) {
+               /* if we have reached a maze or the end of the maze*/
+               ghost[i]->compass = 'D';
+           }
+           else{
+               if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   gtik->stop();
+                   ptik->stop();
+                   PowerBlink->stop();
+                   status_lose->show();
+                   lost = true;
+               }
+               ghost[i]->set_curr_y(y_where-1);
+               if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   gtik->stop();
+                   ptik->stop();
+                   PowerBlink->stop();
+                   status_lose->show();
+                   lost = true;
+               }
+           }
+           break;
+        case 'R': /* Right */
+           if(maze[y_where][x_where+1] == 'N' ) {
+               /* if we have reached a maze or the end of the maze*/
+               ghost[i]->compass = 'L';
+           }
+           else{
+               if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   gtik->stop();
+                   ptik->stop();
+                   PowerBlink->stop();
+                   status_lose->show();
+                   lost = true;
+               }
+               ghost[i]->set_curr_x(x_where+1);
+               if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   gtik->stop();
+                   ptik->stop();
+                   PowerBlink->stop();
+                   status_lose->show();
+                   lost = true;
+               }
+           }
+           break;
+        case 'L': /* Left */
+
+           if(maze[y_where][x_where-1] == 'N' ) {
+               /* if we have reached a maze or the end of the maze*/
+               ghost[i]->compass = 'R';
+           }
+           else{
+               if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   gtik->stop();
+                   ptik->stop();
+                   PowerBlink->stop();
+                   status_lose->show();
+                   lost = true;
+               }
+               ghost[i]->set_curr_x(x_where-1);
+               if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   gtik->stop();
+                   ptik->stop();
+                   PowerBlink->stop();
+                   status_lose->show();
+                   lost = true;
+               }
+           }
+           break;
+        case 'D': /* Down */
+
+           if(maze[y_where+1][x_where] == 'N' ) {
+               /* if we have reached a maze or the end of the maze*/
+               ghost[i]->compass = 'U';
+           }
+           else{
+               if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   gtik->stop();
+                   ptik->stop();
+                   PowerBlink->stop();
+                   status_lose->show();
+                   lost = true;
+               }
+               ghost[i]->set_curr_y(y_where+1);
+               if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   gtik->stop();
+                   ptik->stop();
+                   PowerBlink->stop();
+                   status_lose->show();
+                   lost = true;
+               }
+           }
+           break;
+        default:
+           break;
+            }
+        int newx = ghost[i]->get_curr_x();
+        int newy = ghost[i]->get_curr_y();
+        ghost[i]->setPos(xaxis+newx*length, yaxis+newy*length);
+        QCoreApplication::processEvents();
+        QThread::usleep(8000);
     }
 }
+
+void MainWindow::exit_function() {
+    if (won || lost) {
+        QThread::sleep(3);
+        QCoreApplication::quit(); // quits the program
+    }
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
