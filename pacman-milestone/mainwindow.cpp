@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     build_maze();
     /************************************************ GUI definition above *************************************************/
     /******************************************* pacman call definition below **********************************************/
-    QString filename = "/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt";
-    //QString filename = "/root/move.txt";
+    //QString filename = "/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt";
+    QString filename = "/root/move.txt";
     QFile movement(filename);
     if (!movement.open(QIODevice::ReadWrite)) {
         qInfo() << "file open error";
@@ -92,8 +92,8 @@ void MainWindow::pacman_movement() {
         status_win->show();
     }
     int x_where, y_where;
-    QFile movement("/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt"); /* sensor file */
-   // QFile movement("/root/move.txt"); /* sensor file */
+    //QFile movement("/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt"); /* sensor file */
+    QFile movement("/root/move.txt"); /* sensor file */
     movement.open(QIODevice::ReadOnly);
     QTextStream stream(&movement);
     QByteArray direction = movement.readLine();
@@ -289,4 +289,3 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
