@@ -35,7 +35,7 @@ You should have two binaries now, APDS9960_i2c_BBB & Gpower
 
 *IMPORTANT: You may need to change the permission level of the binary files using the `chmod` command before you can execute them.
 
-5. Run the Gpower binary in the background using the command: `./Gpower &``
+5. Run the Gpower binary in the background using the command: `./Gpower &`
 
 6. Run the APDS9960_i2c_BBB binary using the command `./APDS9960_i2c_BBB`
 
