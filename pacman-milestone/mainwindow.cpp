@@ -64,6 +64,7 @@ void MainWindow::show_hide_cherry() {
 
 void MainWindow::pacman_movement() {
     /* reads sensor movement text file and triggers movement of pacman */
+ //  qInfo() << "haha";
    for (int i = 0; i < 4; i++) {
        /* checks if any ghost intersects with pacman
           lose when detected an intersection and stop all timer
@@ -73,7 +74,7 @@ void MainWindow::pacman_movement() {
            ptik->stop();
            PowerBlink->stop();
            status_lose->show();
-           return;
+           QCoreApplication::quit(); // quits the program
        }
    }
     if(won){
@@ -82,7 +83,7 @@ void MainWindow::pacman_movement() {
         ptik->stop();
         PowerBlink->stop();
         status_win->show();
-        return;
+        QCoreApplication::quit(); // quits the program
     }
     int x_where, y_where;
     //QFile movement("/Users/mandyyao/Desktop/535Submit/pacman-milestone/pacman/move.txt"); /* sensor file */
@@ -212,3 +213,4 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
