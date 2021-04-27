@@ -33,14 +33,10 @@
  * biased to Right (motion value 2).
  * 1 and 2 (left & right) are easier to reproduce than 3 and 4 (Up and Down)
  *
- * Desired Functionality:
- * * Initialize I2C communication
- * * Read/Write I2C registers
- * * Enable and Use Gesture Sensor Engine
- * * Output Detected Direction of Gesture to text file
- *
- * Code Sources:
+ * Code Sources & Reference Material:
  * * Delay function: https://www.geeksforgeeks.org/time-delay-c/
+ * * Arduino C++ Library: https://github.com/sparkfun/APDS-9960_RGB_and_Gesture_Sensor.git
+ * * APDS-9960 Datasheet: https://cdn.sparkfun.com/datasheets/Sensors/Proximity/apds9960.pdf
  *****************************************************/
 
  //Library Includes
