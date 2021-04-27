@@ -27,11 +27,11 @@
  * * Added GPIO Functionality, compiles but doesn't handdle loops properly
  * * * Does react to gestures over the sensor though.
  * Set interrupt function to correctly react to Active Low
- * Adjusted GESTURE_SENSITIVITY_1 and GESTURE_SENSITIVITY_2 to reduce the
- * * minimum deltas needed to detect direction.
- * Currently predicts direction fairly accurately, though it tends to be
- * biased to Right (motion value 2).
- * 1 and 2 (left & right) are easier to reproduce than 3 and 4 (Up and Down)
+ * Increased magnitude of larger delta (lr vs ud) to help with calibrating
+ * * the sensor.
+ * Added error checking for Divide By Zero
+ * Added BTN0 to allow program to exit gracefully and properly unexport GPIO
+ * Confirmed Compiles and Runs Correctly.
  *
  * Code Sources & Reference Material:
  * * Delay function: https://www.geeksforgeeks.org/time-delay-c/
@@ -54,6 +54,7 @@
 
  //interrupt pin
  #define APDS9960_INT            49 // GPIO_49 = Pin P9_23
+ #define BTN0                    117 // GPIO_117 = Pin P9_25, added for but quit
  #define SYSFS_GPIO_DIR          "/sys/class/gpio"
 
  /* Debug */
@@ -303,6 +304,12 @@ int main(int argc, char *argv[]) {
   char dirPin_buf[64];
   char pinVal_buf[64];
   char uexPin_buf[64];
+  //Adding Button input to exit program
+  char btn;
+  char exBtn_buf[64];
+  char dirBtn_buf[64];
+  char btnVal_buf[64];
+  char uexBtn_buf[64];
   //For readGesture functionality
   //int fifo_level = 0;
   //char fifo_data[128];
@@ -327,15 +334,22 @@ int main(int argc, char *argv[]) {
   }
   close(fd);
 
-  //Export GPIO Pin for Interrupt
+  //Export GPIO Pin for Interrupt and BTN0
   len = snprintf(exPin_buf, sizeof(exPin_buf), "%d", APDS9960_INT);
   fd = open("/sys/class/gpio/export", O_WRONLY);
   write(fd, exPin_buf, len);
+  len = snprintf(exBtn_buf, sizeof(exBtn_buf), "%d", BTN0);
+  write(fd, exBtn_buf, len);
   close(fd);
 
   //Set direction of GPIO Interrupt Pin
   snprintf(dirPin_buf, sizeof(dirPin_buf), "/sys/class/gpio/gpio%d/direction", APDS9960_INT);
   fd = open(dirPin_buf, O_WRONLY);
+  write(fd, "in", 3);
+  close(fd);
+  //Set direction of BTN0 Pin
+  snprintf(dirBtn_buf, sizeof(dirBtn_buf), "/sys/class/gpio/gpio%d/direction", BTN0);
+  fd = open(dirBtn_buf, O_WRONLY);
   write(fd, "in", 3);
   close(fd);
 
@@ -612,6 +626,12 @@ int main(int argc, char *argv[]) {
       fd = open(pinVal_buf, O_RDONLY);
       read(fd, &ch, 1);
       close(fd);
+      //Reading the BTN0 pin at the beginning of every loop to check for quit state
+      snprintf(btnVal_buf, sizeof(btnVal_buf), "/sys/class/gpio/gpio%d/value", BTN0);
+      fd = open(btnVal_buf, O_RDONLY);
+      read(fd, &btn, 1);
+      close(fd);
+
       //printf("Reading pin %d\n", APDS9960_INT);
       //Interrupt Pin active LOW
       if (ch == '0'){
@@ -714,10 +734,27 @@ int main(int argc, char *argv[]) {
 
                     /* Calculate the first vs. last ratio of up/down and left/right */
                     printf("Calculating first vs last ratio of up/down and left/right\n"); //Debug Print Statement
-                    ud_ratio_first = ((u_first - d_first) * 100) / (u_first + d_first);
-                    lr_ratio_first = ((l_first - r_first) * 100) / (l_first + r_first);
-                    ud_ratio_last = ((u_last - d_last) * 100) / (u_last + d_last);
-                    lr_ratio_last = ((l_last - r_last) * 100) / (l_last + r_last);
+                    if ((u_first + d_first) == 0){ //Protecting against Divide by zero
+                      ud_ratio_first = (u_first - d_first) * 100;
+                    } else {
+                      ud_ratio_first = ((u_first - d_first) * 100) / (u_first + d_first);
+                    }
+                    if ((l_first + r_first) == 0){ //Protecting against Divide by zero
+                      lr_ratio_first = (l_first - r_first) * 100;
+                    } else {
+                      lr_ratio_first = ((l_first - r_first) * 100) / (l_first + r_first);
+                    }
+                    if ((u_last + d_last) == 0){ //Protecting against Divide by zero
+                      ud_ratio_last = (u_last - d_last) * 100;
+                    } else {
+                      ud_ratio_last = ((u_last - d_last) * 100) / (u_last + d_last);
+                    }
+                    if ((l_last + r_last) == 0){ //Protecting against Divide by zero
+                      lr_ratio_last = (l_last - r_last) * 100;
+                    } else {
+                      lr_ratio_last = ((l_last - r_last) * 100) / (l_last + r_last);
+                    }
+
                     printf("ud_ratio_first: %d\n", ud_ratio_first); //Debug Print Statement
                     printf("lr_ratio_first: %d\n", lr_ratio_first); //Debug Print Statement
                     printf("ud_ratio_last: %d\n", ud_ratio_last); //Debug Print Statement
@@ -937,24 +974,24 @@ int main(int argc, char *argv[]) {
             }
           } //End of Nested Loop
           fp = fopen("move.txt", "w+");
-          switch(motion){
+          switch(motion){ //Directions flipped due to orientation of sensor
             case DIR_UP:
-              printf("UP\n");
+              printf("DOWN\n");
               //fprintf(fp, "U\n");
               fprintf(fp, "D\n");
               break;
             case DIR_DOWN:
-              printf("DOWN\n");
+              printf("UP\n");
               //fprintf(fp, "D\n");
               fprintf(fp, "U\n");
               break;
             case DIR_LEFT:
-              printf("LEFT\n");
+              printf("RIGHT\n");
               //fprintf(fp, "L\n");
               fprintf(fp, "R\n");
               break;
             case DIR_RIGHT:
-              printf("RIGHT\n");
+              printf("LEFT\n");
               //fprintf(fp, "R\n");
               fprintf(fp, "L\n");
               break;
@@ -968,21 +1005,39 @@ int main(int argc, char *argv[]) {
               break;
             default:
               printf("NONE\n");
-              //fprintf(fp, "X\n");
+              fprintf(fp, " \n");
           }
           fclose(fp);
         }
         isr_flag = 0;
         //!!FILL THIS IN!!attachInterrupt(0, interruptRoutine, FALLING)
       }
-    } while(1);
+    } while(btn != '1');
+
+    //Reset all gesture data parameters
+    gesture_data_.index = 0;
+    gesture_data_.total_gestures = 0;
+    gesture_ud_delta_ = 0;
+    gesture_lr_delta_ = 0;
+    gesture_ud_count_ = 0;
+    gesture_lr_count_ = 0;
+    gesture_near_count_ = 0;
+    gesture_far_count_ = 0;
+    gesture_state_ = 0;
+    gesture_motion_ = DIR_NONE;
 
     //Unexporting the pin, not needed but added anyways.
     printf("Code exiting\n"); //Debug Print Statement
     len = snprintf(uexPin_buf, sizeof(uexPin_buf), "%d", APDS9960_INT);
     fd = open("/sys/class/gpio/unexport", O_WRONLY);
     write(fd, uexPin_buf, len);
+    len = snprintf(uexBtn_buf, sizeof(uexBtn_buf), "%d", BTN0);
+    write(fd, uexBtn_buf, len);
     close(fd);
+
+    fp = fopen("move.txt", "w+");
+    fprintf(fp, " \n");
+    fclose(fp);
 
   return 0;
 }
