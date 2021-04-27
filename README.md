@@ -1,18 +1,18 @@
 # G-Power
 
-Prerequisites
+## Prerequisites
 
-Hardware Required:
+### Hardware Required:
   - 1x  Beaglebone Black running a linux distro
   - 1x APDS-9960 RGB and Gesture Sensor
   - 1x Pushbutton Switch
   - 1x 330Ω Resistor
   - 1x Breadboard (Optional)
 
-Software Required:
+### Software Required:
   - ARM compiler
 
-Steps to Run from a Beaglebone Black:
+## Steps to Run from a Beaglebone Black:
 
 1. Download and unzip the G-Power repo
 
@@ -31,4 +31,4 @@ You should have two binaries now, APDS9960_i2c_BBB & Gpower
 
 6. Run the APDS9960_i2c_BBB binary using the command './APDS9960_i2c_BBB'
 
-How to Play:
+## How to Play:
