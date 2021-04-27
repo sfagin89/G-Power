@@ -40,3 +40,13 @@ You should have two binaries now, APDS9960_i2c_BBB & Gpower
 6. Run the APDS9960_i2c_BBB binary using the command `./APDS9960_i2c_BBB`
 
 ## How to Play:
+
+Wave your hand over the gesture sensor in the direction you want PACMAN to move. PACMAN will move in that direction until you gesture in a different direction or until hitting a wall.
+
+Collect coins through the maze to increase your score. Collect all the coins to win. Avoid the ghosts or lose the game. Eating a fruit will freeze the ghosts in place for a short period of time.
+
+Game will continue until you win or lose.
+
+When done with the game, disconnect the gesture 'controller' by pressing the Pushbutton.
+
+Most Important: Have Fun!
