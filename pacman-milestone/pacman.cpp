@@ -92,6 +92,8 @@ int Pacman::addscore(int x, int y) {
             if (total_ate == total_corn) {
                 won = true;
             }
+            cherryFreezeFlag = true;
+            cherryFreeze = 100;
             return 0;
         }
     }

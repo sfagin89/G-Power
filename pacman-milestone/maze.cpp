@@ -11,6 +11,8 @@ QVector<QGraphicsPixmapItem*> cherries; /* for score keeping later on */
 QVector<QGraphicsPixmapItem*> miniBalls;
 bool lost=false, won=false; /* turns true lost-->ghost & pac algorithm, won-->total_corn == ate_corn */
 char maze[22][37]; /* wall ratio based on maze.txt */
+bool cherryFreezeFlag = false;
+int cherryFreeze = 0;
 QGraphicsPixmapItem *web[22][37]; /* wall ratio based on maze.txt */
 
 void MainWindow::build_maze() {
