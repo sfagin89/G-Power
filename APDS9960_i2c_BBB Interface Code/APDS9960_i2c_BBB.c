@@ -940,19 +940,23 @@ int main(int argc, char *argv[]) {
           switch(motion){
             case DIR_UP:
               printf("UP\n");
-              fprintf(fp, "U\n");
+              //fprintf(fp, "U\n");
+              fprintf(fp, "D\n");
               break;
             case DIR_DOWN:
               printf("DOWN\n");
-              fprintf(fp, "D\n");
+              //fprintf(fp, "D\n");
+              fprintf(fp, "U\n");
               break;
             case DIR_LEFT:
               printf("LEFT\n");
-              fprintf(fp, "L\n");
+              //fprintf(fp, "L\n");
+              fprintf(fp, "R\n");
               break;
             case DIR_RIGHT:
               printf("RIGHT\n");
-              fprintf(fp, "R\n");
+              //fprintf(fp, "R\n");
+              fprintf(fp, "L\n");
               break;
             case DIR_NEAR:
               printf("NEAR\n");
