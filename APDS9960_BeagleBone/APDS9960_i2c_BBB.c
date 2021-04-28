@@ -225,16 +225,16 @@
  #define DEFAULT_GIEN            0       // Disable gesture interrupts
 
  /* Direction definitions */
-enum {
-  DIR_NONE,
-  DIR_LEFT,
-  DIR_RIGHT,
-  DIR_UP,
-  DIR_DOWN,
-  DIR_NEAR,
-  DIR_FAR,
-  DIR_ALL
-};
+ enum {
+   DIR_NONE,
+   DIR_LEFT,
+   DIR_RIGHT,
+   DIR_UP,
+   DIR_DOWN,
+   DIR_NEAR,
+   DIR_FAR,
+   DIR_ALL
+ };
 
 /* State definitions */
 enum {
@@ -326,31 +326,53 @@ int main(int argc, char *argv[]) {
   int gesture_state_;
   int gesture_motion_;
 
-  //Verify Pin is not already in use
+  //Verify Pins is not already in use
   len = snprintf(uexPin_buf, sizeof(uexPin_buf), "%d", APDS9960_INT);
   fd = open("/sys/class/gpio/unexport", O_WRONLY);
-  if(!write(fd, uexPin_buf, len)){
-    printf("Pin was not in use\n");
+  if(write(fd, uexPin_buf, len) < 0){
+    printf("Interrupt Pin was not in use\n");
+  }
+  len = snprintf(uexBtn_buf, sizeof(uexBtn_buf), "%d", BTN0);
+  if(write(fd, uexBtn_buf, len) < 0){
+    printf("BTN0 Pin was not in use\n");
   }
   close(fd);
 
-  //Export GPIO Pin for Interrupt and BTN0
+  //Export GPIO Pins for Interrupt and BTN0
   len = snprintf(exPin_buf, sizeof(exPin_buf), "%d", APDS9960_INT);
   fd = open("/sys/class/gpio/export", O_WRONLY);
-  write(fd, exPin_buf, len);
+  if(write(fd, exPin_buf, len) < 0){
+    printf("Pin %d was not exported first time\n", APDS9960_INT);
+    //Implemented to resolve a bug that occurs on first run after powerup
+    //where the export fails the first time the program is run.
+    if(write(fd, exPin_buf, len) < 0){
+      printf("Pin %d was not exported second time\n", APDS9960_INT);
+    }
+  }
   len = snprintf(exBtn_buf, sizeof(exBtn_buf), "%d", BTN0);
-  write(fd, exBtn_buf, len);
+  if(write(fd, exBtn_buf, len) < 0){
+    printf("Pin %d was not exported first time\n", BTN0);
+    //Implemented to resolve a bug that occurs on first run after powerup
+    //where the export fails the first time the program is run.
+    if(write(fd, exBtn_buf, len) < 0){
+      printf("Pin %d was not exported second time\n", BTN0);
+    }
+  }
   close(fd);
 
   //Set direction of GPIO Interrupt Pin
   snprintf(dirPin_buf, sizeof(dirPin_buf), "/sys/class/gpio/gpio%d/direction", APDS9960_INT);
   fd = open(dirPin_buf, O_WRONLY);
-  write(fd, "in", 3);
+  if(write(fd, "in", 3) < 0){
+    printf("Pin %d was not set to in\n", APDS9960_INT);
+  }
   close(fd);
   //Set direction of BTN0 Pin
   snprintf(dirBtn_buf, sizeof(dirBtn_buf), "/sys/class/gpio/gpio%d/direction", BTN0);
   fd = open(dirBtn_buf, O_WRONLY);
-  write(fd, "in", 3);
+  if(write(fd, "in", 3) < 0){
+    printf("Pin %d was not set to in\n", BTN0);
+  }
   close(fd);
 
   //Open the I2C Bus
@@ -1005,7 +1027,7 @@ int main(int argc, char *argv[]) {
               break;
             default:
               printf("NONE\n");
-              fprintf(fp, " \n");
+              //fprintf(fp, " \n");
           }
           fclose(fp);
         }
