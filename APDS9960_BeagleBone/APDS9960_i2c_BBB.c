@@ -225,12 +225,14 @@
  #define DEFAULT_GIEN            0       // Disable gesture interrupts
 
  /* Direction definitions */
+ /* If sensor not installed upside down,
+  * swap LEFT with RIGHT and UP with DOWN */
  enum {
    DIR_NONE,
-   DIR_LEFT,
    DIR_RIGHT,
-   DIR_UP,
+   DIR_LEFT,
    DIR_DOWN,
+   DIR_UP,
    DIR_NEAR,
    DIR_FAR,
    DIR_ALL
@@ -998,24 +1000,20 @@ int main(int argc, char *argv[]) {
           fp = fopen("move.txt", "w+");
           switch(motion){ //Directions flipped due to orientation of sensor
             case DIR_UP:
-              printf("DOWN\n");
-              //fprintf(fp, "U\n");
-              fprintf(fp, "D\n");
-              break;
-            case DIR_DOWN:
               printf("UP\n");
-              //fprintf(fp, "D\n");
               fprintf(fp, "U\n");
               break;
+            case DIR_DOWN:
+              printf("DOWN\n");
+              fprintf(fp, "D\n");
+              break;
             case DIR_LEFT:
-              printf("RIGHT\n");
-              //fprintf(fp, "L\n");
-              fprintf(fp, "R\n");
+              printf("LEFT\n");
+              fprintf(fp, "L\n");
               break;
             case DIR_RIGHT:
-              printf("LEFT\n");
-              //fprintf(fp, "R\n");
-              fprintf(fp, "L\n");
+              printf("RIGHT\n");
+              fprintf(fp, "R\n");
               break;
             case DIR_NEAR:
               printf("NEAR\n");
