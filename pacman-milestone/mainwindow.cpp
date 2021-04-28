@@ -180,6 +180,7 @@ void MainWindow::ghost_movement(){
            }
            else{
                if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   /* Checking for collision before movement of ghost */
                    gtik->stop();
                    ptik->stop();
                    PowerBlink->stop();
@@ -188,6 +189,7 @@ void MainWindow::ghost_movement(){
                }
                ghost[i]->set_curr_y(y_where-1);
                if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   /* Checking for collision after movement of ghost */
                    gtik->stop();
                    ptik->stop();
                    PowerBlink->stop();
@@ -203,6 +205,7 @@ void MainWindow::ghost_movement(){
            }
            else{
                if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   /* Checking for collision before movement of ghost */
                    gtik->stop();
                    ptik->stop();
                    PowerBlink->stop();
@@ -211,6 +214,7 @@ void MainWindow::ghost_movement(){
                }
                ghost[i]->set_curr_x(x_where+1);
                if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   /* Checking for collision after movement of ghost */
                    gtik->stop();
                    ptik->stop();
                    PowerBlink->stop();
@@ -227,6 +231,7 @@ void MainWindow::ghost_movement(){
            }
            else{
                if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   /* Checking for collision before movement of ghost */
                    gtik->stop();
                    ptik->stop();
                    PowerBlink->stop();
@@ -235,6 +240,7 @@ void MainWindow::ghost_movement(){
                }
                ghost[i]->set_curr_x(x_where-1);
                if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   /* Checking for collision after movement of ghost */
                    gtik->stop();
                    ptik->stop();
                    PowerBlink->stop();
@@ -251,6 +257,7 @@ void MainWindow::ghost_movement(){
            }
            else{
                if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   /* Checking for collision before movement of ghost */
                    gtik->stop();
                    ptik->stop();
                    PowerBlink->stop();
@@ -259,6 +266,7 @@ void MainWindow::ghost_movement(){
                }
                ghost[i]->set_curr_y(y_where+1);
                if (ghost[i]->get_curr_x() == gPac->get_curr_x() && ghost[i]->get_curr_y() == gPac->get_curr_y()) {
+                   /* Checking for collision after movement of ghost */
                    gtik->stop();
                    ptik->stop();
                    PowerBlink->stop();
@@ -280,6 +288,7 @@ void MainWindow::ghost_movement(){
 
 void MainWindow::exit_function() {
     if (won || lost) {
+        /* timer checks every 5 seconds on whether won or lost flag is turned on to exit game */
         QThread::sleep(3);
         QCoreApplication::quit(); // quits the program
     }
