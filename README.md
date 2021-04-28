@@ -27,13 +27,14 @@ A custom PACMAN application using QT, using a gesture sensor to control the move
 2. From inside the APDS9960_BeagleBone directory, run `make` to produce the gesture controller binary.
 
 3. From inside the pacman-milestone directory, run `qmake` then `make` to produce the QT binary.
-  *IMPORTANT: If you're going to run the game as a user other than root, open the mainwindow.cpp file and change the file paths at line 18 & 96 to your home directory.
+  
+  **IMPORTANT:** If you're going to run the game as a user other than root, open the mainwindow.cpp file and change the file paths at line 18 & 96 to your home directory prior to running the qmake and make commands.
 
 You should have two binaries now, APDS9960_i2c_BBB & Gpower
 
 4. Move both binaries to your home directory on the BeagleBone Black
 
-*IMPORTANT: You may need to change the permission level of the binary files using the `chmod` command before you can execute them.
+**IMPORTANT:** You may need to change the permission level of the binary files using the `chmod` command before you can execute them.
 
 5. Run the Gpower binary in the background using the command: `./Gpower &`
 
