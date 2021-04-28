@@ -225,8 +225,6 @@
  #define DEFAULT_GIEN            0       // Disable gesture interrupts
 
  /* Direction definitions */
- /* If sensor not installed upside down,
-  * swap LEFT with RIGHT and UP with DOWN */
  enum {
    DIR_NONE,
    DIR_LEFT,
@@ -419,7 +417,7 @@ int main(int argc, char *argv[]) {
   //Writing value back to Enable register
   i2c_write(file, buf, 2, APDS9960_ENABLE, reg_val);
 
-  printf("Checking result of SetMode\n");
+  //printf("Checking result of SetMode\n");
   //i2c_read(file, buf, 1, APDS9960_ENABLE);
   printf("Value of Enable read from Register 0x%x: %x\n", APDS9960_ENABLE, buf[0]);
 
@@ -671,10 +669,10 @@ int main(int argc, char *argv[]) {
       //Interrupt Pin active LOW
       if (ch == '0'){
         interruptRoutine();
-        printf("Interrupt Routine Triggered\n"); //Debug Print Statement
+        //printf("Interrupt Routine Triggered\n"); //Debug Print Statement
       }
       if (isr_flag == 1) {
-        printf("isr_flag = %d\n", isr_flag); //Debug Print Statement
+        //printf("isr_flag = %d\n", isr_flag); //Debug Print Statement
         //!!FILL THIS IN!!detachInterrupt
         /*****************************************************
          * Begin Gesture Handling
@@ -1009,20 +1007,22 @@ int main(int argc, char *argv[]) {
             }
           } //End of Nested Loop
           fp = fopen("move.txt", "w+");
-          switch(motion){ //Directions flipped due to orientation of sensor
-            case DIR_UP:
+          /* If sensor not installed upside down,
+           * swap DIR_LEFT with DIR_RIGHT and DIR_UP with DIR_DOWN */
+          switch(motion){ //Directions currently flipped due to direction of sensor
+            case DIR_DOWN:
               printf("UP\n");
               fprintf(fp, "U\n");
               break;
-            case DIR_DOWN:
+            case DIR_UP:
               printf("DOWN\n");
               fprintf(fp, "D\n");
               break;
-            case DIR_LEFT:
+            case DIR_RIGHT:
               printf("LEFT\n");
               fprintf(fp, "L\n");
               break;
-            case DIR_RIGHT:
+            case DIR_LEFT:
               printf("RIGHT\n");
               fprintf(fp, "R\n");
               break;
