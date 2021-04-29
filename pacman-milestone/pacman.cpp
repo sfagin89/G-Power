@@ -11,6 +11,7 @@ Pacman::Pacman(int j, int i):curr_x(j),curr_y(i) {
     pix[3]->pixmap.load(":/pacman/3.png");
     }
 
+/* directional method inspired by Blueskyson. “Blueskyson/Qt-Pac-Man.” GitHub, github.com/blueskyson/Qt-pac-man. */
 void Pacman::north() {
     int posy = static_cast<int>(this->y());
     curr_y = (posy-yaxis)/length;
