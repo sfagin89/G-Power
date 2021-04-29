@@ -17,7 +17,7 @@ A custom PACMAN application using QT, using a gesture sensor to control the move
   - 1x 330Ω Resistor
   - 1x Breadboard (Optional)
 
-  For hardware setup, [please refer to the wiring diagram: "G-Power/APDS-9960 to BBB Wiring Diagram.png"
+  For hardware setup, please refer to the wiring diagram: "G-Power/APDS-9960 to BBB Wiring Diagram.png"
 
 ### Software Required:
   - Ability to cross-compile for ARM architecture (Unless compiling directly on the Beaglebone)
@@ -54,3 +54,17 @@ Game will continue until you win or lose.
 When done with the game, disconnect the gesture 'controller' by pressing the Pushbutton.
 
 Most Important: Have Fun!
+
+## Resources Used:
+
+1. Company, The Qt. “Cross-Platform Software Development for Embedded & Desktop.” Qt, www.qt.io/
+
+2. Sparkfun. “APDS-9960 Datasheet ”. https://cdn.sparkfun.com/datasheets/Sensors/Proximity/apds9960.pdf
+
+3. Github. “APDS-9960_RGB_and_Gesture_Sensor” C++ Library for Arduino, https://github.com/sparkfun/APDS-9960_RGB_and_Gesture_Sensor.git
+
+4. Blueskyson. “Blueskyson/Qt-Pac-Man.” GitHub, github.com/blueskyson/Qt-pac-man
+
+5. VoidRealms. “C++ Qt 81 - QGraphicsView and QGraphicsScene.” YouTube, YouTube, 26 May 2011, www.youtube.com/watch?v=b35JF4LqtBs
+
+6. hGenhGen 1, et al. “Invalid New-Expression of Abstract Class Type.” Stack Overflow, 1 Feb. 1963, stackoverflow.com/questions/23827014/invalid-new-expression-of-abstract-class-type/23827093
