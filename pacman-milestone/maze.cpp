@@ -15,6 +15,8 @@ bool cherryFreezeFlag = false;
 int cherryFreeze = 0;
 QGraphicsPixmapItem *web[22][37]; /* wall ratio based on maze.txt */
 
+
+/* pixel placement method inspired and switch cases by HW 3 & Blueskyson. “Blueskyson/Qt-Pac-Man.” GitHub, github.com/blueskyson/Qt-pac-man. */
 void MainWindow::build_maze() {
     memset(maze, '0', sizeof(maze));
     QFile Gmaze(":/pacman/maze.txt");
