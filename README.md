@@ -18,6 +18,7 @@ A custom PACMAN application using QT, using a gesture sensor to control the move
   - 1x Breadboard (Optional)
 
   For hardware setup, please refer to the wiring diagram: "G-Power/APDS-9960 to BBB Wiring Diagram.png"
+  ![Wiring Diagram](https://github.com/sfagin89/G-Power/blob/main/APDS-9960%20to%20BBB%20Wiring%20Diagram.png?raw=true)
 
 ### Software Required:
   - Ability to cross-compile for ARM architecture (Unless compiling directly on the Beaglebone)
